@@ -14,6 +14,11 @@ class Qbank extends CI_Controller {
 			redirect('login');
 			
 		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 	 }
 
 	public function index($limit='0',$cid='0',$lid='0')
@@ -69,6 +74,8 @@ class Qbank extends CI_Controller {
 	
 	public function pre_new_question()
 	{
+	 	
+	
 		
 			$logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']!='1'){

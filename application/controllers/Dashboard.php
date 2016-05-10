@@ -17,6 +17,11 @@ class Dashboard extends CI_Controller {
 			redirect('login');
 			
 		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+				$this->session->unset_userdata('logged_in');		
+			redirect('login');
+		}
 	 }
 
 	public function index()
@@ -53,7 +58,9 @@ class Dashboard extends CI_Controller {
 			if($logged_in['su']!='1'){
 			exit($this->lang->line('permission_denied'));
 			}
-			
+			if($this->config->item('frontend_write_admin') > $logged_in['su']){
+			exit($this->lang->line('permission_denied'));
+			}			
 			
 		if($this->input->post('config_val')){
 		if($this->input->post('force_write')){

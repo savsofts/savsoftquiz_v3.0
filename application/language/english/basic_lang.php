@@ -12,6 +12,7 @@ $lang['config'] = "Config File";
 $lang['custom_css'] = "Custom CSS";
 $lang['config_warning'] = "Update config file carefully";
 $lang['login'] = "Login";
+$lang['processing'] = "Processing...";
 $lang['install_now'] = "Install Now";
 $lang['email_address'] = "Email Address";
 $lang['password'] = "Password";

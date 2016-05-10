@@ -521,7 +521,10 @@ function setIndividual_time(cqn='0'){
 function submit_quiz(){
 	save_answer(qn);
 	setIndividual_time(qn);
+	$('#processing').html("Processing...<br>");
+	setTimeout(function(){
 	window.location=base_url+"index.php/quiz/submit_quiz/";
+	},3000);
 }
 
 

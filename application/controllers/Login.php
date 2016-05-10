@@ -13,6 +13,10 @@ class Login extends CI_Controller {
 		redirect('install');	
 		}
 		 
+		 
+		 
+		
+		
 	 }
 
 	public function index()
@@ -36,6 +40,13 @@ class Login extends CI_Controller {
 		$this->load->view('login',$data);
 		$this->load->view('footer',$data);
 	}
+	
+	
+ 
+	
+	
+	
+	
 	
 		public function registration()
 	{
@@ -71,6 +82,7 @@ class Login extends CI_Controller {
 				}
 				
 			}
+			$user['base_url']=base_url();
 			// creating login cookie
 			$this->session->set_userdata('logged_in', $user);
 			// redirect to dashboard

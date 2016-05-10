@@ -15,6 +15,11 @@ class Quiz extends CI_Controller {
 			redirect('login');
 			
 		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 	 }
 
 	public function index($limit='0')
@@ -206,6 +211,9 @@ class Quiz extends CI_Controller {
 		public function insert_quiz()
 	{
 		
+	 
+	
+	
 		
 			$logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']!='1'){

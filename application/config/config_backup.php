@@ -5,23 +5,7 @@ include('sq_config.php');
 |--------------------------------------------------------------------------
 | Base Site URL
 |--------------------------------------------------------------------------
-|
-| URL to your CodeIgniter root. Typically this will be your base URL,
-| WITH a trailing slash:
-|
-|	http://example.com/
-|
-| WARNING: You MUST set this value!
-|
-| If it is not set, then CodeIgniter will try guess the protocol and path
-| your installation, but due to security concerns the hostname will be set
-| to $_SERVER['SERVER_ADDR'] if available, or localhost otherwise.
-| The auto-detection mechanism exists only for convenience during
-| development and MUST NOT be used in production!
-|
-| If you need to allow multiple domains, remember that this file is still
-| a PHP script and you can easily do that on your own.
-|
+| 
 */
 $config['base_url'] = $sq_base_url;
 
@@ -43,7 +27,7 @@ $config['verify_email']=true;
 // tinymce editor ( true or false )
 $config['tinymce']=true;
 
-
+ 
 
 
 // enable or disable result email. use true or false
@@ -626,3 +610,5 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 $config['master_password']='savsoftquiz';
+
+

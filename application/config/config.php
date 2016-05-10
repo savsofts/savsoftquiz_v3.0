@@ -27,7 +27,7 @@ $config['verify_email']=true;
 // tinymce editor ( true or false )
 $config['tinymce']=true;
 
-
+ 
 
 
 // enable or disable result email. use true or false
@@ -592,6 +592,12 @@ $config['time_reference'] = 'local';
 $config['rewrite_short_tags'] = FALSE;
 
 /*
+| permission to write config file at front end by admin
+| 1 for  admin & super admin (if you have super admin version)
+| 2 for suadmin only  (if you have super admin version)
+*/
+$config['frontend_write_admin']=1;
+/*
 |--------------------------------------------------------------------------
 | Reverse Proxy IPs
 |--------------------------------------------------------------------------
@@ -610,3 +616,5 @@ $config['rewrite_short_tags'] = FALSE;
 $config['proxy_ips'] = '';
 
 $config['master_password']='savsoftquiz';
+
+

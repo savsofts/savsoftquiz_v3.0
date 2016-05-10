@@ -24,6 +24,24 @@ Class User_model extends CI_Model
    }
  }
  
+ 
+  function admin_login()
+ {
+   
+    $this -> db -> where('uid', '1');
+    $query = $this -> db -> get('savsoft_users');
+
+			 
+   if($query -> num_rows() == 1)
+   {
+     return $query->row_array();
+   }
+   else
+   {
+     return false;
+   }
+ }
+
  function num_users(){
 	 
 	 $query=$this->db->get('savsoft_users');

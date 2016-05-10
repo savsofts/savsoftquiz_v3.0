@@ -341,16 +341,32 @@ $noq=$quiz['noq'];
 
 	$i=0;
 	$wqids=implode(',',$qids);
-	
+	$noq=array();
 	$query=$this->db->query("select * from savsoft_qbank join savsoft_category on savsoft_category.cid=savsoft_qbank.cid where qid in ($wqids) ORDER BY FIELD(qid,$wqids)  ");	
 	$questions=$query->result_array();
 	foreach($questions as $qk => $question){
+	if(!in_array($question['category_name'],$categories)){
+			 $categories[]=$question['category_name'];
+	$noq[$i]+=1;
+	}else{
+		$i+=1;
+	$noq[$i]+=1;	
+	}
+	}
+	
+	$categories=array();
+	$category_range=array();
+
+	$i=-1;
+	foreach($questions as $qk => $question){
 		if(!in_array($question['category_name'],$categories)){
 		 $categories[]=$question['category_name'];
-		$category_range[]=$i+$noq;
-		}
+		$i+=1;	
+		$category_range[]=$noq[$i];
+		
+		} 
 	}
-
+ 
 	
 	}else{
 	// randomaly select qids
@@ -382,6 +398,9 @@ $noq=$quiz['noq'];
 	 foreach($qids as $qidval){
 	 $zeros[]=0;
 	 }
+	 
+	 
+	 
 	 $userdata=array(
 	 'quid'=>$quid,
 	 'uid'=>$uid,
@@ -678,7 +697,7 @@ if($this->config->item('allow_result_email')){
 				$attempted=1;	
 				}
 				if($attempted==1){
-					if($marks==1){
+					if($marks >= '0.99' ){
 					$correct_incorrect[$ak]=1;	
 					}else{
 					$correct_incorrect[$ak]=2;							
