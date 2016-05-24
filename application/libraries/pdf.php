@@ -14,6 +14,7 @@
 
 require_once(dirname(__FILE__) . '/dompdf/dompdf_config.inc.php');
 
+
 class Pdf extends DOMPDF
 {
 /**
