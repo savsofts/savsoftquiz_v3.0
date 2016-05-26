@@ -83,12 +83,14 @@ Class Qbank_model extends CI_Model
 		 }else{
 			 $score=0;
 		 }
-	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
+		$explain = $this->input->post('explaination');
+		$userdata=array(
+	 		'q_option'=>$val,
+	 		'qid'=>$qid,
+	 		'score'=>$score,
+			'explaination'=> $this->input->post('explaination['.$key.']'),
+	 	);
+	 	$this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
 	 
@@ -114,12 +116,13 @@ Class Qbank_model extends CI_Model
 		 }else{
 			 $score=0;
 		 }
-	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
+		$userdata=array(
+	 		'q_option'=>$val,
+	 		'qid'=>$qid,
+	 		'score'=>$score,
+			'explaination'=> $this->input->post('explaination['.$key.']'),
+	 	);
+	 	$this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
 	 
@@ -172,13 +175,15 @@ Class Qbank_model extends CI_Model
 	 $this->db->insert('savsoft_qbank',$userdata);
 	 $qid=$this->db->insert_id();
 	 foreach($this->input->post('option') as $key => $val){
-	  $score=1;
-	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
+		$score=1;
+		$userdata=array(
+			'q_option'=>$val,
+			'qid'=>$qid,
+			'score'=>$score,
+			'explaination'=> $this->input->post('explaination'),
+	 	);
+		
+	 	$this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
 	 
@@ -229,15 +234,18 @@ Class Qbank_model extends CI_Model
 		 }else{
 			 $score=0;
 		 }
-	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
+		$userdata=array(
+	 		'q_option'=>$val,
+	 		'qid'=>$qid,
+	 		'score'=>$score,
+			'explaination'=> $this->input->post('explaination['.$key.']'),
+	 	);
+	 	$this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
-	 
+	 $datei = fopen("test.txt","a");
+	 echo fwrite($datei, '-'.var_dump($this->input->post('explaination')).'-\r\n');
+	 fclose($datei);
 	 return true;
 	 
  }
@@ -259,19 +267,20 @@ Class Qbank_model extends CI_Model
 	 $this->db->where('qid',$qid);
 	 $this->db->update('savsoft_qbank',$userdata);
 	 $this->db->where('qid',$qid);
-	$this->db->delete('savsoft_options');
+	 $this->db->delete('savsoft_options');
 	 foreach($this->input->post('option') as $key => $val){
 		 if(in_array($key,$this->input->post('score'))){
 			 $score=(1/count($this->input->post('score')));
 		 }else{
 			 $score=0;
 		 }
-	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
+		$userdata=array(
+	 		'q_option'=>$val,
+	 		'qid'=>$qid,
+	 		'score'=>$score,
+			'explaination'=> $this->input->post('explaination['.$key.']'),
+	 	);
+	 	$this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
 	 
@@ -327,13 +336,17 @@ Class Qbank_model extends CI_Model
 	 $this->db->update('savsoft_qbank',$userdata);
 	 $this->db->where('qid',$qid);
 	$this->db->delete('savsoft_options');
- foreach($this->input->post('option') as $key => $val){
-	  $score=1;
-	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
+ 	foreach($this->input->post('option') as $key => $val){
+		$score=1;
+		$userdata=array(
+	 	'q_option'=>$val,
+	 	'qid'=>$qid,
+	 	'score'=>$score,
+		'explaination'=> $this->input->post('explaination'),
 	 );
+		$datei = fopen("test.txt","a");
+		echo fwrite($datei, $this->input->post('explaination') .'\r\n');
+		fclose($datei);
 	 $this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
@@ -516,15 +529,15 @@ if($key != 0){
 echo "<pre>";print_r($singlequestion);
 $question= str_replace('"','&#34;',$singlequestion['1']);
 $question= str_replace("`",'&#39;',$question);
-$question= str_replace("‘",'&#39;',$question);
-$question= str_replace("’",'&#39;',$question);
-$question= str_replace("â€œ",'&#34;',$question);
 $question= str_replace("â€˜",'&#39;',$question);
-
-
-
 $question= str_replace("â€™",'&#39;',$question);
-$question= str_replace("â€",'&#34;',$question);
+$question= str_replace("Ã¢â‚¬Å“",'&#34;',$question);
+$question= str_replace("Ã¢â‚¬Ëœ",'&#39;',$question);
+
+
+
+$question= str_replace("Ã¢â‚¬â„¢",'&#39;',$question);
+$question= str_replace("Ã¢â‚¬Â�",'&#34;',$question);
 $question= str_replace("'","&#39;",$question);
 $question= str_replace("\n","<br>",$question);
 $description= str_replace('"','&#34;',$singlequestion['2']);
