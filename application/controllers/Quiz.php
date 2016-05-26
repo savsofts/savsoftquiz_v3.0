@@ -9,13 +9,23 @@ class Quiz extends CI_Controller {
 	   $this->load->database();
 	   $this->load->model("quiz_model");
 	   $this->load->model("user_model");
-	   $this->lang->load('basic', $this->config->item('language'));
 		// redirect if not loggedin
 		if(!$this->session->userdata('logged_in')){
 			redirect('login');
 			
 		}
 		$logged_in=$this->session->userdata('logged_in');
+		//set language
+		$language = $this->config->item('language');
+		switch ($logged_in['lang']){
+			case 'en':
+				$language = $language = 'english';
+				break;
+			case 'de':
+				$language = 'german';
+				break;
+		}
+		$this->lang->load('basic', $language);
 		if($logged_in['base_url'] != base_url()){
 		$this->session->unset_userdata('logged_in');		
 		redirect('login');
