@@ -57,7 +57,7 @@ Class User_model extends CI_Model
 		 $this->db->or_where('savsoft_users.first_name',$search);
 		 $this->db->or_where('savsoft_users.last_name',$search);
 		 $this->db->or_where('savsoft_users.contact_no',$search);
-
+		 $this->db->or_where('savsoft_users.lang',$search);
 	 }
 		$this->db->limit($this->config->item('number_of_rows'),$limit);
 		$this->db->order_by('savsoft_users.uid','desc');
@@ -106,6 +106,7 @@ Class User_model extends CI_Model
 		'first_name'=>$this->input->post('first_name'),
 		'last_name'=>$this->input->post('last_name'),
 		'contact_no'=>$this->input->post('contact_no'),
+		'lang'=>$this->input->post('lang'),
 		'gid'=>$this->input->post('gid'),
 		'subscription_expired'=>strtotime($this->input->post('subscription_expired')),
 		'su'=>$this->input->post('su')		
@@ -129,6 +130,7 @@ Class User_model extends CI_Model
 		'first_name'=>$this->input->post('first_name'),
 		'last_name'=>$this->input->post('last_name'),
 		'contact_no'=>$this->input->post('contact_no'),
+		'lang'=>$this->input->post('lang'),
 		'gid'=>$this->input->post('gid'),
 		'su'=>'0'		
 		);
@@ -255,6 +257,7 @@ $new_password=rand('1111','9999');
 		);
 		if($logged_in['su']=='1'){
 			$userdata['email']=$this->input->post('email');
+			$userdata['lang']=$this->input->post('lang');
 			$userdata['gid']=$this->input->post('gid');
 			if($this->input->post('subscription_expired') !='0'){
 			$userdata['subscription_expired']=strtotime($this->input->post('subscription_expired'));
