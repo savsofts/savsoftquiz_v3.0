@@ -247,38 +247,35 @@ $new_password=rand('1111','9999');
 
 
  function update_user($uid){
-	 $logged_in=$this->session->userdata('logged_in');
-						 
-			
-		$userdata=array(
-		  'first_name'=>$this->input->post('first_name'),
+	$logged_in=$this->session->userdata('logged_in');
+	
+	$userdata=array(
+		'first_name'=>$this->input->post('first_name'),
 		'last_name'=>$this->input->post('last_name'),
 		'contact_no'=>$this->input->post('contact_no')	
-		);
-		if($logged_in['su']=='1'){
-			$userdata['email']=$this->input->post('email');
-			$userdata['lang']=$this->input->post('lang');
-			$userdata['gid']=$this->input->post('gid');
-			if($this->input->post('subscription_expired') !='0'){
+	);
+	$userdata['lang']=$this->input->post('lang');
+	if($logged_in['su']=='1'){
+		$userdata['email']=$this->input->post('email');
+
+		$userdata['gid']=$this->input->post('gid');
+		if($this->input->post('subscription_expired') !='0'){
 			$userdata['subscription_expired']=strtotime($this->input->post('subscription_expired'));
-			}else{
+		} else {
 			$userdata['subscription_expired']='0';	
-			}
-			$userdata['su']=$this->input->post('su');
-			}
-			
-		if($this->input->post('password')!=""){
-			$userdata['password']=md5($this->input->post('password'));
 		}
-		 $this->db->where('uid',$uid);
-		if($this->db->update('savsoft_users',$userdata)){
-			
-			return true;
-		}else{
-			
-			return false;
-		}
-	 
+		$userdata['su']=$this->input->post('su');
+	}
+	if($this->input->post('password')!=""){
+		$userdata['password']=md5($this->input->post('password'));
+	}
+	$this->db->where('uid',$uid);
+	if($this->db->update('savsoft_users',$userdata)){
+		return true;
+	} else {
+		return false;
+	}
+
  }
  
  function update_group($gid){
