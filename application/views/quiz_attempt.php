@@ -151,6 +151,13 @@ $abc=array(
 '10'=>'J',
 '11'=>'K'
 );
+
+$multiple_choice_single_answer = 'Multiple Choice Single Answer';
+$multiple_choice_multiple_answer = 'Multiple Choice Multiple Answer';
+$short_answer = 'Short Answer';
+$long_answer = 'Long Answer';
+$match_the_column = 'Match the Column';
+
 foreach($questions as $qk => $question){
 ?>
  
@@ -163,8 +170,8 @@ foreach($questions as $qk => $question){
 		 </div>
 		<div class="option_container" >
 		 <?php 
-		 // multiple single choice
-		 if($question['question_type']==$this->lang->line('multiple_choice_single_answer')){
+		 // multiple single choice  
+		 if($question['question_type'] == $multiple_choice_single_answer){
 			 
 			 			 			 $save_ans=array();
 			 foreach($saved_answers as $svk => $saved_answer){
@@ -194,9 +201,9 @@ foreach($questions as $qk => $question){
 			}
 		 }
 			
-// multiple_choice_multiple_answer	
-
-		 if($question['question_type']==$this->lang->line('multiple_choice_multiple_answer')){
+		// multiple_choice_multiple_answer	
+		 echo $question['question_type'] .'<br>';
+		 if($question['question_type'] == $multiple_choice_multiple_answer){
 			 			 $save_ans=array();
 			 foreach($saved_answers as $svk => $saved_answer){
 				 if($question['qid']==$saved_answer['qid']){
@@ -226,7 +233,7 @@ foreach($questions as $qk => $question){
 			 
 	// short answer	
 
-		 if($question['question_type']==$this->lang->line('short_answer')){
+		 if($question['question_type'] == $short_answer){
 			 			 $save_ans="";
 			 foreach($saved_answers as $svk => $saved_answer){
 				 if($question['qid']==$saved_answer['qid']){
@@ -252,7 +259,7 @@ foreach($questions as $qk => $question){
 		 
 		 	// long answer	
 
-		 if($question['question_type']==$this->lang->line('long_answer')){
+		 if($question['question_type'] == $long_answer){
 			 $save_ans="";
 			 foreach($saved_answers as $svk => $saved_answer){
 				 if($question['qid']==$saved_answer['qid']){
@@ -284,7 +291,7 @@ foreach($questions as $qk => $question){
 		
 		// matching	
 
-		 if($question['question_type']==$this->lang->line('match_the_column')){
+		 if($question['question_type'] == $match_the_column){
 			 			 			 $save_ans=array();
 			 foreach($saved_answers as $svk => $saved_answer){
 				 if($question['qid']==$saved_answer['qid']){
@@ -392,10 +399,10 @@ foreach($questions as $qk => $question){
 
 	
 <table>
-<tr><td style="font-size:12px;"><div class="qbtn" style="background:#449d44;">&nbsp;</div> <?php echo $this->lang->line('Answered');?> Answered</td></tr>
-<tr><td style="font-size:12px;"><div class="qbtn" style="background:#c9302c;">&nbsp;</div> <?php echo $this->lang->line('UnAnswered');?> UnAnswered</td></tr>
-<tr><td style="font-size:12px;"><div class="qbtn" style="background:#ec971f;">&nbsp;</div> <?php echo $this->lang->line('Review-Later');?> Review-Later</td></tr>
-<tr><td style="font-size:12px;"><div class="qbtn" style="background:#212121;">&nbsp;</div> <?php echo $this->lang->line('Not-visited');?> Not-visited</td></tr>
+<tr><td style="font-size:12px;"><div class="qbtn" style="background:#449d44;">&nbsp;</div> <?php echo $this->lang->line('Answered');?></td></tr>
+<tr><td style="font-size:12px;"><div class="qbtn" style="background:#c9302c;">&nbsp;</div> <?php echo $this->lang->line('UnAnswered');?></td></tr>
+<tr><td style="font-size:12px;"><div class="qbtn" style="background:#ec971f;">&nbsp;</div> <?php echo $this->lang->line('Review-Later');?></td></tr>
+<tr><td style="font-size:12px;"><div class="qbtn" style="background:#212121;">&nbsp;</div> <?php echo $this->lang->line('Not-visited');?></td></tr>
 </table>
 
 
