@@ -243,9 +243,6 @@ Class Qbank_model extends CI_Model
 	 	$this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
-	 $datei = fopen("test.txt","a");
-	 echo fwrite($datei, '-'.var_dump($this->input->post('explaination')).'-\r\n');
-	 fclose($datei);
 	 return true;
 	 
  }
@@ -344,9 +341,6 @@ Class Qbank_model extends CI_Model
 	 	'score'=>$score,
 		'explaination'=> $this->input->post('explaination'),
 	 );
-		$datei = fopen("test.txt","a");
-		echo fwrite($datei, $this->input->post('explaination') .'\r\n');
-		fclose($datei);
 	 $this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
