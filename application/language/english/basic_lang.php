@@ -39,6 +39,7 @@ $lang['userlist'] = "User List";
 $lang['email'] = "Email";
 $lang['first_name'] = "First Name";
 $lang['last_name'] = "Last Name";
+$lang['lang'] = "Language";
 $lang['action'] = "Action";
 $lang['answer_sheet'] = "Answer Sheet";
 $lang['correct'] = "Correct ";
