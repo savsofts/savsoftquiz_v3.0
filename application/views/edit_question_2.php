@@ -77,6 +77,8 @@
 					<label for="inputEmail"  ><?php echo $this->lang->line('options');?> <?php echo $key+1;?>)</label> <br>
 					<input type="checkbox" name="score[]" value="<?php echo $key;?>" <?php if($val['score']>=0.1){ echo 'checked'; } ?> > Select Correct Option 
 					<br><textarea  name="option[]"  class="form-control"  ><?php echo $val['q_option'];?></textarea>
+					<label for="inputEmail"  ><?php echo $this->lang->line('explaination');?> <?php echo ($key+1);?>)</label> <br>
+					<br><textarea  name="explaination[]"  class="form-control"  ><?php echo $val['explaination'];?></textarea>
 			</div>
 		<?php 
 		}

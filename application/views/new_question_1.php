@@ -76,6 +76,8 @@
 					<label for="inputEmail"  ><?php echo $this->lang->line('options');?> <?php echo $i;?>)</label> <br>
 					<input type="radio" name="score" value="<?php echo $i-1;?>" <?php if($i==1){ echo 'checked'; } ?> > Select Correct Option 
 					<br><textarea  name="option[]"  class="form-control"   ></textarea>
+					<label for="inputEmail"  ><?php echo $this->lang->line('explaination');?> <?php echo ($i);?>)</label> <br>
+					<br><textarea  name="explaination[]"  class="form-control"  ></textarea>
 			</div>
 		<?php 
 		}
