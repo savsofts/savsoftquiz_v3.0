@@ -483,7 +483,10 @@ function save_answer(qn){
 }
 
 
-function setIndividual_time(cqn='0'){
+function setIndividual_time(cqn){
+	if(cqn==undefined || cqn == null ){
+		var cqn='0';
+	}
 		  if(cqn=='0'){
 		ind_time[qn]=parseInt(ind_time[qn])+parseInt(ctime);	
 		 
