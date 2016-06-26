@@ -51,9 +51,8 @@ Class Quiz_model extends CI_Model
 	 'gids'=>implode(',',$this->input->post('gids')),
 	 'question_selection'=>$this->input->post('question_selection')
 	 );
-	 if($this->input->post('gen_certificate')){
-		$userdata['gen_certificate']=$this->input->post('gen_certificate'); 
-	 }
+	 	$userdata['gen_certificate']=$this->input->post('gen_certificate'); 
+	 
 	 if($this->input->post('certificate_text')){
 		$userdata['certificate_text']=$this->input->post('certificate_text'); 
 	 }
@@ -81,13 +80,13 @@ Class Quiz_model extends CI_Model
 	 'camera_req'=>$this->input->post('camera_req'),
 	 'gids'=>implode(',',$this->input->post('gids'))
 	 );
-	 	 if($this->input->post('gen_certificate')){
+	  	 	 
 		$userdata['gen_certificate']=$this->input->post('gen_certificate'); 
-	 }
+	  
 	 if($this->input->post('certificate_text')){
 		$userdata['certificate_text']=$this->input->post('certificate_text'); 
 	 }
-
+ 
 	  $this->db->where('quid',$quid);
 	  $this->db->update('savsoft_quiz',$userdata);
 	  
