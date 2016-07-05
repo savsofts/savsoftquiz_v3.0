@@ -1,8 +1,7 @@
 <?php
 Class Qbank_model extends CI_Model
 {
- 
-  function question_list($limit,$cid='0',$lid='0'){
+	function question_list($limit,$cid='0',$lid='0'){
 	 if($this->input->post('search')){
 		 $search=$this->input->post('search');
 		 $this->db->or_where('savsoft_qbank.qid',$search);
@@ -66,30 +65,30 @@ Class Qbank_model extends CI_Model
  }
  
  function insert_question_1(){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('multiple_choice_single_answer'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-	 $this->db->insert('savsoft_qbank',$userdata);
-	 $qid=$this->db->insert_id();
-	 foreach($this->input->post('option') as $key => $val){
-		 if($this->input->post('score')==$key){
-			 $score=1;
-		 }else{
-			 $score=0;
-		 }
+ 	$multiple_choice_single_answer = 'Multiple Choice Single Answer';
+	
 	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
-		 
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type' => $multiple_choice_single_answer,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+
+	$this->db->insert('savsoft_qbank',$userdata);
+	$qid=$this->db->insert_id();
+	foreach($this->input->post('option') as $key => $val){
+		if($this->input->post('score')==$key){
+			$score=1;
+		}else{
+			$score=0;
+		}
+		$userdata=array(
+			'q_option'=>$val,
+			'qid'=>$qid,
+			'score'=>$score,
+		);
+		$this->db->insert('savsoft_options',$userdata);	 
 	 }
 	 
 	 return true;
@@ -97,29 +96,29 @@ Class Qbank_model extends CI_Model
  }
 
  function insert_question_2(){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('multiple_choice_multiple_answer'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-	 $this->db->insert('savsoft_qbank',$userdata);
-	 $qid=$this->db->insert_id();
-	 foreach($this->input->post('option') as $key => $val){
+	$multiple_choice_multiple_answer = 'Multiple Choice Multiple Answer';
+	
+	$userdata=array(
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type' => $multiple_choice_multiple_answer,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->insert('savsoft_qbank',$userdata);
+	$qid=$this->db->insert_id();
+	foreach($this->input->post('option') as $key => $val){
 		 if(in_array($key,$this->input->post('score'))){
 			 $score=(1/count($this->input->post('score')));
 		 }else{
 			 $score=0;
 		 }
-	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
+		$userdata=array(
+		'q_option'=>$val,
+		'qid'=>$qid,
+		'score'=>$score,
+		);
+		$this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
 	 
@@ -129,27 +128,26 @@ Class Qbank_model extends CI_Model
  
  
  function insert_question_3(){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('match_the_column'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-	 $this->db->insert('savsoft_qbank',$userdata);
-	 $qid=$this->db->insert_id();
-	 foreach($this->input->post('option') as $key => $val){
-	  $score=(1/count($this->input->post('option')));
+	$match_the_column = 'Match the Column';
+
 	$userdata=array(
-	 'q_option'=>$val,
-	 'q_option_match'=>$_POST['option2'][$key],
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
-		 
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type' => $match_the_column,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->insert('savsoft_qbank',$userdata);
+	$qid=$this->db->insert_id();
+	foreach($this->input->post('option') as $key => $val){
+		$score=(1/count($this->input->post('option')));
+		$userdata=array(
+			'q_option'=>$val,
+			'q_option_match'=>$_POST['option2'][$key],
+			'qid'=>$qid,
+			'score'=>$score,
+		);
+	 	$this->db->insert('savsoft_options',$userdata);	 
 	 }
 	 
 	 return true;
@@ -160,25 +158,25 @@ Class Qbank_model extends CI_Model
  
  
  function insert_question_4(){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('short_answer'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-	 $this->db->insert('savsoft_qbank',$userdata);
-	 $qid=$this->db->insert_id();
-	 foreach($this->input->post('option') as $key => $val){
-	  $score=1;
+	$short_answer = 'Short Answer';
+
 	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type'=>$short_answer,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->insert('savsoft_qbank',$userdata);
+	$qid=$this->db->insert_id();
+	foreach($this->input->post('option') as $key => $val){
+		$score=1;
+		$userdata=array(
+			'q_option'=>$val,
+			'qid'=>$qid,
+			'score'=>$score,
+		);
+		$this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
 	 
@@ -188,19 +186,18 @@ Class Qbank_model extends CI_Model
  
  
  function insert_question_5(){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('long_answer'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-	 $this->db->insert('savsoft_qbank',$userdata);
-	 $qid=$this->db->insert_id();
-	 
-	 
+ 	$long_answer = 'Long Answer';
+	
+	$userdata=array(
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type' => $long_answer,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->insert('savsoft_qbank',$userdata);
+	$qid=$this->db->insert_id();
+
 	 return true;
 	 
  }
@@ -208,69 +205,64 @@ Class Qbank_model extends CI_Model
  
  
   function update_question_1($qid){
+	$multiple_choice_single_answer = 'Multiple Choice Single Answer';
 	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('multiple_choice_single_answer'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-	 $this->db->where('qid',$qid);
-	 $this->db->update('savsoft_qbank',$userdata);
-	 $this->db->where('qid',$qid);
-	$this->db->delete('savsoft_options');
-	 foreach($this->input->post('option') as $key => $val){
-		 
-		 
-		 if($this->input->post('score')==$key){
-			 $score=1;
-		 }else{
-			 $score=0;
-		 }
 	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
-		 
-	 }
-	 
-	 return true;
-	 
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type' => $multiple_choice_single_answer,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->where('qid',$qid);
+	$this->db->update('savsoft_qbank',$userdata);
+	$this->db->where('qid',$qid);
+	$this->db->delete('savsoft_options');
+	foreach($this->input->post('option') as $key => $val){
+		if($this->input->post('score')==$key){
+			$score=1;
+		}else{
+			$score=0;
+		}
+		$userdata=array(
+			'q_option'=>$val,
+			'qid'=>$qid,
+			'score'=>$score,
+		);
+		$this->db->insert('savsoft_options',$userdata);	 
+
+	}
+	
+	return true;
+
  }
 
- 
- 
- 
- 
+
   function update_question_2($qid){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('multiple_choice_multiple_answer'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-	 $this->db->where('qid',$qid);
-	 $this->db->update('savsoft_qbank',$userdata);
-	 $this->db->where('qid',$qid);
-	$this->db->delete('savsoft_options');
-	 foreach($this->input->post('option') as $key => $val){
-		 if(in_array($key,$this->input->post('score'))){
-			 $score=(1/count($this->input->post('score')));
-		 }else{
-			 $score=0;
-		 }
+	$multiple_choice_multiple_answer = 'Multiple Choice Multiple Answer';
+	
 	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type' => $multiple_choice_multiple_answer,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->where('qid',$qid);
+	$this->db->update('savsoft_qbank',$userdata);
+	$this->db->where('qid',$qid);
+	$this->db->delete('savsoft_options');
+	foreach($this->input->post('option') as $key => $val){
+		if(in_array($key,$this->input->post('score'))){
+			$score=(1/count($this->input->post('score')));
+		}else{
+			$score=0;
+		}
+		$userdata=array(
+			'q_option'=>$val,
+			'qid'=>$qid,
+			'score'=>$score,
+	 	);
 	 $this->db->insert('savsoft_options',$userdata);	 
 		 
 	 }
@@ -281,84 +273,81 @@ Class Qbank_model extends CI_Model
  
  
  function update_question_3($qid){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('match_the_column'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-	 	 $this->db->where('qid',$qid);
-	 $this->db->update('savsoft_qbank',$userdata);
-	 $this->db->where('qid',$qid);
+ 	$match_the_column = 'Match the Column';
+	
+	$userdata=array(
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type' => $match_the_column,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->where('qid',$qid);
+	$this->db->update('savsoft_qbank',$userdata);
+	$this->db->where('qid',$qid);
 	$this->db->delete('savsoft_options');
 	foreach($this->input->post('option') as $key => $val){
-	  $score=(1/count($this->input->post('option')));
-	$userdata=array(
-	 'q_option'=>$val,
-	 'q_option_match'=>$_POST['option2'][$key],
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
-		 
-	 }
-	 
-	 return true;
-	 
+		$score=(1/count($this->input->post('option')));
+		$userdata=array(
+			'q_option'=>$val,
+			'q_option_match'=>$_POST['option2'][$key],
+			'qid'=>$qid,
+			'score'=>$score,
+	 	);
+	 	$this->db->insert('savsoft_options',$userdata);	 
+	
+	}
+	
+	return true;
+
  }
  
  
- 
- 
  function update_question_4($qid){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('short_answer'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-		 $this->db->where('qid',$qid);
-	 $this->db->update('savsoft_qbank',$userdata);
-	 $this->db->where('qid',$qid);
-	$this->db->delete('savsoft_options');
- foreach($this->input->post('option') as $key => $val){
-	  $score=1;
+ 	$short_answer = 'Short Answer';
+	
 	$userdata=array(
-	 'q_option'=>$val,
-	 'qid'=>$qid,
-	 'score'=>$score,
-	 );
-	 $this->db->insert('savsoft_options',$userdata);	 
-		 
-	 }
-	 
-	 return true;
-	 
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type'=>$short_answer,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->where('qid',$qid);
+	$this->db->update('savsoft_qbank',$userdata);
+	$this->db->where('qid',$qid);
+	$this->db->delete('savsoft_options');
+	foreach($this->input->post('option') as $key => $val){
+		$score=1;
+		$userdata=array(
+			'q_option'=>$val,
+			'qid'=>$qid,
+			'score'=>$score,
+		);
+		$this->db->insert('savsoft_options',$userdata);	 
+		
+	}
+	
+	return true;
+
  }
  
  
  function update_question_5($qid){
-	 
-	 
-	 $userdata=array(
-	 'question'=>$this->input->post('question'),
-	 'description'=>$this->input->post('description'),
-	 'question_type'=>$this->lang->line('long_answer'),
-	 'cid'=>$this->input->post('cid'),
-	 'lid'=>$this->input->post('lid')	 
-	 );
-		 $this->db->where('qid',$qid);
-	 $this->db->update('savsoft_qbank',$userdata);
-	 $this->db->where('qid',$qid);
+ 	$long_answer = 'Long Answer';
+	
+	$userdata=array(
+		'question'=>$this->input->post('question'),
+		'description'=>$this->input->post('description'),
+		'question_type' => $long_answer,
+		'cid'=>$this->input->post('cid'),
+		'lid'=>$this->input->post('lid')	 
+	);
+	$this->db->where('qid',$qid);
+	$this->db->update('savsoft_qbank',$userdata);
+	$this->db->where('qid',$qid);
 	$this->db->delete('savsoft_options');
 
-	 
 	 return true;
 	 
  }
@@ -532,19 +521,19 @@ $description= str_replace("'","&#39;",$description);
 $description= str_replace("\n","<br>",$description);
 $ques_type= $singlequestion['0'];
 if($ques_type=="0" || $ques_type==""){
-$question_type=$this->lang->line('multiple_choice_single_answer');	
+$question_type = $multiple_choice_single_answer;	
 }
 if($ques_type=="1"){
-$question_type=$this->lang->line('multiple_choice_multiple_answer');	
+$question_type = $multiple_choice_multiple_answer;	
 }
 if($ques_type=="2"){
-$question_type=$this->lang->line('match_the_column');	
+$question_type = $match_the_column;	
 }
 if($ques_type=="3"){
-$question_type=$this->lang->line('short_answer');	
+$question_type = $short_answer;	
 }
 if($ques_type=="4"){
-$question_type=$this->lang->line('long_answer');	
+$question_type = $long_answer;	
 }
 
 

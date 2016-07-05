@@ -9,7 +9,17 @@ class Payment_gateway extends CI_Controller {
 	   $this->load->database();
 	   $this->load->model("user_model");
 	   $this->load->model("payment_model");
-	   $this->lang->load('basic', $this->config->item('language'));
+	   $logged_in=$this->session->userdata('logged_in');
+		$language = $this->config->item('language');
+		switch ($logged_in['lang']){
+			case 'en':
+				$language = $language = 'english';
+				break;
+			case 'de':
+				$language = 'german';
+				break;
+		}
+		$this->lang->load('basic', $language);
 
 	 }
 

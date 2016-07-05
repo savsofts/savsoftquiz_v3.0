@@ -8,13 +8,24 @@ class User extends CI_Controller {
 	   parent::__construct();
 	   $this->load->database();
 	   $this->load->model("user_model");
-	   $this->lang->load('basic', $this->config->item('language'));
 		// redirect if not loggedin
 		if(!$this->session->userdata('logged_in')){
 			redirect('login');
 			
 		}
+		
 		$logged_in=$this->session->userdata('logged_in');
+		//set language
+		$language = $this->config->item('language');
+		switch ($logged_in['lang']){
+			case 'en':
+				$language = $language = 'english';
+				break;
+			case 'de':
+				$language = 'german';
+				break;
+		}
+		$this->lang->load('basic', $language);
 		if($logged_in['base_url'] != base_url()){
 		$this->session->unset_userdata('logged_in');		
 		redirect('login');
@@ -58,7 +69,7 @@ class User extends CI_Controller {
 		$this->load->view('footer',$data);
 	}
 	
-		public function insert_user()
+	public function insert_user()
 	{
 	 	
 		
@@ -134,32 +145,26 @@ class User extends CI_Controller {
 		$this->load->view('footer',$data);
 	}
 
-		public function update_user($uid)
+	public function update_user($uid)
 	{
-		
-		
-			$logged_in=$this->session->userdata('logged_in');
+		$logged_in=$this->session->userdata('logged_in');
 						 
-			if($logged_in['su']!='1'){
+		if($logged_in['su']!='1'){
 			 $uid=$logged_in['uid'];
-			}
+		}
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('email', 'Email', 'required');
-           if ($this->form_validation->run() == FALSE)
-                {
-                     $this->session->set_flashdata('message', "<div class='alert alert-danger'>".validation_errors()." </div>");
-					redirect('user/edit_user/'.$uid);
-                }
-                else
-                {
-					if($this->user_model->update_user($uid)){
-                        $this->session->set_flashdata('message', "<div class='alert alert-success'>".$this->lang->line('data_updated_successfully')." </div>");
-					}else{
-						    $this->session->set_flashdata('message', "<div class='alert alert-danger'>".$this->lang->line('error_to_update_data')." </div>");
-						
-					}
-					redirect('user/edit_user/'.$uid);
-                }       
+		if ($this->form_validation->run() == FALSE) {
+			$this->session->set_flashdata('message', "<div class='alert alert-danger'>".validation_errors()." </div>");
+			redirect('user/edit_user/'.$uid);
+		} else {
+			if($this->user_model->update_user($uid)){
+				$this->session->set_flashdata('message', "<div class='alert alert-success'>".$this->lang->line('data_updated_successfully')." </div>");
+			} else {
+				$this->session->set_flashdata('message', "<div class='alert alert-danger'>".$this->lang->line('error_to_update_data')." </div>");
+			}
+			redirect('user/edit_user/'.$uid);
+	}
 
 	}
 	

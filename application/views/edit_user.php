@@ -44,8 +44,15 @@
 					<input type="text"   name="last_name"  class="form-control"  value="<?php echo $result['last_name'];?>"  placeholder="<?php echo $this->lang->line('last_name');?>"   autofocus>
 			</div>
 				<div class="form-group">	 
+					<label   ><?php echo $this->lang->line('lang');?></label> 
+					<select class="form-control" name="lang">
+						<option value="en" <?php if($result['lang']=='en'){ echo 'selected';}?>  >en</option>
+						<option value="de" <?php if($result['lang']=='de'){ echo 'selected';}?>  >de</option>
+					</select>
+			</div>
+				<div class="form-group">	 
 					<label for="inputEmail" class="sr-only"><?php echo $this->lang->line('contact_no');?></label> 
-					<input type="text" name="contact_no"  class="form-control"  value="<?php echo $result['contact_no'];?>"  placeholder="<?php echo $this->lang->line('contact_no');?>"   autofocus>
+					<input type="text" name="contact_no"  class="form-control"  value="<?php echo $result['contact_no'];?>"  placeholder="<?php echo $this->lang->line('lang');?>"   autofocus>
 			</div>
 				<div class="form-group">	 
 					<label   ><?php echo $this->lang->line('select_group');?></label> 
