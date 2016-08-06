@@ -37,6 +37,6 @@ PHP 5+ One MySql Database (v5+) Linux or Windows server ( Recommend Linux with c
 
 Community Support http://savsoftquiz.com/forum/
 
-Documentation: http://savsoftquiz.com/user_guide_v3.0/
+Documentation: http://savsoftquiz.com/docs/
 
 Installation: http://www.savsoftquiz.com/user_guide_v3.0/installation.html
