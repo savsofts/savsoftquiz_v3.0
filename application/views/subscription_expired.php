@@ -11,8 +11,7 @@
  <h3><?php echo $this->lang->line('subscription_expired_message');?></h3>
    
  <br>
- <a href="<?php echo site_url('payment_gateway_2/subscribe/'.$user['gid'].'/'.$user['uid']);?>"><?php echo $this->lang->line('click_here');?></a> 
- <?php echo $this->lang->line('to_buy');?>
+ <div class="alert alert-warning"> Payment gateway files not available !<br>Visit <a href="http://savsoftquiz.com/">www.savsoftquiz.com</a> & Buy commercial license to get this functionality. </div>
  
  
  
