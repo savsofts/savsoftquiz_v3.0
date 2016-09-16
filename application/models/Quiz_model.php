@@ -425,7 +425,7 @@ $noq=$quiz['noq'];
  
  function open_result($quid,$uid){
 	 $result_open=$this->lang->line('open');
-		$query=$this->db->query("select * from savsoft_result  where savsoft_result.result_status='$result_open' "); 
+		$query=$this->db->query("select * from savsoft_result  where savsoft_result.result_status='$result_open'  and savsoft_result.uid='$uid'  "); 
 	if($query->num_rows() >= '1'){
 		$result=$query->row_array();
 return $result['rid'];		
