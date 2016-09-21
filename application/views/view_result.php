@@ -156,12 +156,12 @@ $abc=array(
 '2'=>'C',
 '3'=>'D',
 '4'=>'E',
-'6'=>'F',
-'7'=>'G',
-'8'=>'H',
-'9'=>'I',
-'10'=>'J',
-'11'=>'K'
+'5'=>'F',
+'6'=>'G',
+'7'=>'H',
+'8'=>'I',
+'9'=>'J',
+'10'=>'K'
 );
 foreach($questions as $qk => $question){
 ?>
@@ -171,7 +171,6 @@ foreach($questions as $qk => $question){
 		<div style="padding:10px;" >
 		 <?php echo '<b>'.$this->lang->line('question');?> <?php echo $qk+1;?>)</b><br>
 		 <?php echo $question['question'];?>
-<hr>
 		 <?php if($question['description']!='') {
 			echo '<b>'.$this->lang->line('description').'</b><br>';
 			echo $question['description'];
@@ -195,60 +194,56 @@ foreach($questions as $qk => $question){
 			 <input type="hidden"  name="question_type[]"  id="q_type<?php echo $qk;?>" value="1">
 			 <?php
 			$i=0;
-			$correct_options=array();
 			foreach($options as $ok => $option){
 				if($option['qid']==$question['qid']){
-					if($option['score'] >= 0.1){
-						$correct_options[]=$option['q_option'];
-					}
 			?>
 			 
-		<div class="op"><?php echo $abc[$i];?>) <input type="radio" name="answer[<?php echo $qk;?>][]"  id="answer_value<?php echo $qk.'-'.$i;?>" value="<?php echo $option['oid'];?>"   <?php if(in_array($option['oid'],$save_ans)){ echo 'checked'; } ?>  > <?php echo $option['q_option'];?> </div>
+			<div class="op">
+				<?php echo $abc[$i] . ') ' . $this->lang->line('your_answer')?> <input type="radio" name="answer[<?php echo $qk;?>][]"  id="answer_value<?php echo $qk.'-'.$i;?>" value="<?php echo $option['oid'];?>"   <?php   if(in_array($option['oid'],$save_ans)){ echo 'checked'; } ?>  > <?php echo $this->lang->line('correct_answer')?>:<input  type="radio" name="canswer[<?php echo $qk;?>][]"  id="canswer_value<?php echo $qk.'-'.$i;?>" value="<?php echo $option['oid'];?>"   <?php  echo ($option['score'] == 0 ? '' : 'checked'); ?> > 
+				<?php echo $option['q_option'];?> <?php echo ($option['explaination'] ? $this->lang->line('explaination') . ': ' . $option['explaination'] : '');?> 
+			</div>
 			 
 			 
 			 <?php 
-			 $i+=1;
+			 		$i+=1;
 				}else{
-				$i=0;	
-					
+					$i=0;	
 				}
 			}
-			echo "<br>".$this->lang->line('correct_options').': '.implode(', ',$correct_options);
+
 		 }
 			
 // multiple_choice_multiple_answer	
 
 		 if($question['question_type']==$this->lang->line('multiple_choice_multiple_answer')){
-			 			 $save_ans=array();
-			 foreach($saved_answers as $svk => $saved_answer){
+			$save_ans=array();
+			foreach($saved_answers as $svk => $saved_answer){
 				 if($question['qid']==$saved_answer['qid']){
 					$save_ans[]=$saved_answer['q_option'];
 				 }
-			 }
-			 
-			 ?>
-			 <input type="hidden"  name="question_type[]"  id="q_type<?php echo $qk;?>" value="2">
-			 <?php
+			}
+			
+			?>
+			<input type="hidden"  name="question_type[]"  id="q_type<?php echo $qk;?>" value="2">
+			<?php
 			$i=0;
 			$correct_options=array();
 			foreach($options as $ok => $option){
 				if($option['qid']==$question['qid']){
-						if($option['score'] >= 0.1){
-						$correct_options[]=$option['q_option'];
-					}
 			?>
 			 
-		<div class="op"><?php echo $abc[$i];?>) <input type="checkbox" name="answer[<?php echo $qk;?>][]" id="answer_value<?php echo $qk.'-'.$i;?>"   value="<?php echo $option['oid'];?>"  <?php if(in_array($option['oid'],$save_ans)){ echo 'checked'; } ?> > <?php echo $option['q_option'];?> </div>
-			 
-			 
+			<div class="op">
+				<?php echo $abc[$i] . ') ' . $this->lang->line('your_answer')?> <input type="checkbox" name="answer[<?php echo $qk;?>][]"  id="answer_value<?php echo $qk.'-'.$i;?>" value="<?php echo $option['oid'];?>"   <?php   if(in_array($option['oid'],$save_ans)){ echo 'checked'; } ?>  > <?php echo $this->lang->line('correct_answer')?>:<input  type="checkbox" name="canswer[<?php echo $qk;?>][]"  id="canswer_value<?php echo $qk.'-'.$i;?>" value="<?php echo $option['oid'];?>"   <?php  echo ($option['score'] == 0 ? '' : 'checked'); ?> > 
+				<?php echo $option['q_option'];?> <?php echo ($option['explaination'] ? $this->lang->line('explaination') . ': ' . $option['explaination'] : '');?> 
+			</div>
+			
 			 <?php 
-			 $i+=1;
+			 		$i+=1;
 				}else{
-				$i=0;	
-					
+					$i=0;	
 				}
 			}
-			echo "<br>".$this->lang->line('correct_options').': '.implode(', ',$correct_options);
+
 		 }
 			 
 	// short answer	
@@ -275,13 +270,13 @@ foreach($questions as $qk => $question){
 		</div>
 			 
 			 
-			 <?php 
-			 			 foreach($options as $ok => $option){
+			<?php 
+			foreach($options as $ok => $option){
 				if($option['qid']==$question['qid']){
 					 echo "<br>".$this->lang->line('correct_answer').': '.$option['q_option'];
-			 }
-			 }
-			 
+			 	}
+			}
+			echo ($options[0]['explaination'] ?  '<br>' . $this->lang->line('explaination') . ': ' . $options[0]['explaination'] : $option['qid']);
 		 }
 		 
 		 

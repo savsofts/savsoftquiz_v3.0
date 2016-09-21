@@ -69,13 +69,15 @@
 					<label for="inputEmail"  ><?php echo $this->lang->line('description');?></label> 
 					<textarea  name="description"  class="form-control"><?php echo $question['description'];?></textarea>
 			</div>
-	<div class="form-group">	 
+			<div class="form-group">	 
 					<label for="inputEmail"  ><?php echo $this->lang->line('answer_in_one_or_two_word');?> </label> <br>
 					<input type="text" name="option[]"  class="form-control"  value="<?php echo $options[0]['q_option'];?>"  > 
-</div>
-
- 
-	<button class="btn btn-default" type="submit"><?php echo $this->lang->line('submit');?></button>
+			</div>
+			<div class="form-group">
+					<label for="inputEmail"  ><?php echo $this->lang->line('explaination');?></label> <br>
+					<br><textarea  name="explaination"  class="form-control"  ><?php echo $options[0]['explaination'];?></textarea>
+ 			</div>
+			<button class="btn btn-default" type="submit"><?php echo $this->lang->line('submit');?></button>
  
 		</div>
 </div>
