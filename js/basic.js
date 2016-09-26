@@ -591,3 +591,200 @@ function show_question_stat(id){
  
 
 // end - quiz attempt functions 
+
+
+
+
+
+// start classroom
+
+
+
+
+function postclass_content(id){
+var cont=document.getElementById('page').innerHTML;
+var formData = {content:cont};
+document.getElementById('page_res').innerHTML="Sending data...";
+	$.ajax({
+		type: "POST",
+	    data : formData,
+		url: base_url + "index.php/liveclass/insert_content/"+id,
+		success: function(data){
+				var d = new Date();
+		var dt=d.toString();
+		var gt=dt.replace("GMT+0530 (India Standard Time)","");
+		document.getElementById('page_res').innerHTML="Sent : "+gt;
+
+		},
+		error: function(xhr,status,strErr){
+			document.getElementById('page_res').innerHTML="Sending failed!";
+			}	
+		});
+
+}
+
+
+function get_liveclass_content(id){
+
+	$.ajax({
+		url: base_url + "index.php/liveclass/get_class_content/"+id,
+		success: function(data){
+		var d = new Date();
+var dt=d.toString();
+var gt=dt.replace("GMT+0530 (India Standard Time)","");
+document.getElementById('page').innerHTML=data;
+		document.getElementById('page_res').innerHTML="Last updated on "+gt;
+setTimeout(function(){
+get_liveclass_content(id);
+},5000);
+		},
+		error: function(xhr,status,strErr){
+setTimeout(function(){
+get_liveclass_content(id);
+},5000);
+			}	
+		});
+		
+	document.getElementById("page").scrollTop = document.getElementById("page").scrollHeight;
+	
+}
+
+
+
+function get_liveclass_content_2(id){
+
+	$.ajax({
+		url: base_url + "index.php/liveclass/get_class_content/"+id,
+		success: function(data){
+		var d = new Date();
+var dt=d.toString();
+var gt=dt.replace("GMT+0530 (India Standard Time)","");
+document.getElementById('page').innerHTML=data;
+		document.getElementById('page_res').innerHTML="Last updated on "+gt;
+
+		},
+		error: function(xhr,status,strErr){
+setTimeout(function(){
+get_liveclass_content(id);
+},5000);
+			}	
+		});
+		
+	document.getElementById("page").scrollTop = document.getElementById("page").scrollHeight;
+	
+}
+
+
+
+var class_id;
+function get_ques_content(id){
+class_id=id;
+	$.ajax({
+		url: base_url + "index.php/liveclass/get_ques_content/"+id,
+		success: function(data){
+		//alert(data);
+		document.getElementById('comment_box').innerHTML=data;
+		
+setTimeout(function(){
+get_ques_content(id);
+},5000);
+		},
+		error: function(xhr,status,strErr){
+setTimeout(function(){
+get_ques_content(id);
+},5000);
+			}	
+		});
+		document.getElementById("comment_box").scrollTop = document.getElementById("comment_box").scrollHeight;
+
+}
+
+function get_ques_content_2(id){
+class_id=id;
+	$.ajax({
+		url: base_url + "index.php/liveclass/get_ques_content/"+id,
+		success: function(data){
+		//alert(data);
+		document.getElementById('comment_box').innerHTML=data;
+		
+
+		},
+		error: function(xhr,status,strErr){
+setTimeout(function(){
+get_ques_content(id);
+},5000);
+			}	
+		});
+		document.getElementById("comment_box").scrollTop = document.getElementById("comment_box").scrollHeight;
+
+}
+
+
+function comment(id){
+var comnt=document.getElementById('comment_send').value;
+
+var formData = {content:comnt};
+document.getElementById('comment_send').value="Sending data...";
+	$.ajax({
+		type: "POST",
+	    data : formData,
+		url: base_url + "index.php/liveclass/insert_comnt/"+id,
+		success: function(data){
+				document.getElementById('comment_send').value="";
+		},
+		error: function(xhr,status,strErr){
+			document.getElementById('comment_send').innerHTML="Sending failed!";
+			}	
+		});
+
+}
+var publish="0";
+ function show_options(id,p){
+comnt_id=id;
+publish=p;
+if(publish=="0"){
+document.getElementById('pub').innerHTML="Unpublish";
+}else{
+document.getElementById('pub').innerHTML="Publish";
+
+}
+$("#comnt_optn").fadeIn();
+
+}
+function hide_options(){
+$("#comnt_optn").fadeOut();
+}
+ 
+  function publish_comment(){
+
+	var formData = {id:comnt_id,pub:publish};
+	$.ajax({
+		type: "POST",
+	    data : formData,
+		url: base_url + "index.php/liveclass/publish_comnt/",
+		success: function(data){
+				$("#comnt_optn").fadeOut();
+				 get_ques_content(class_id);
+		},
+		});
+ 
+ 
+ }
+ 
+ function delete_comment(){
+ //alert(comnt_id);
+	var formData = {id:comnt_id};
+	$.ajax({
+		type: "POST",
+	    data : formData,
+		url: base_url + "index.php/liveclass/del_comnt/",
+		success: function(data){
+				$("#comnt_optn").fadeOut();
+				 get_ques_content(class_id);
+		},
+		});
+ 
+ 
+ }
+
+// end classroom

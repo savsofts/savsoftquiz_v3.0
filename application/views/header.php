@@ -35,7 +35,7 @@
   	
 	<?php 
 			if($this->session->userdata('logged_in')){
-				if($this->uri->segment(2)!='attempt'){
+				if(($this->uri->segment(1).'/'.$this->uri->segment(2))!='quiz/attempt'){
 				$logged_in=$this->session->userdata('logged_in');
 	?>
 	    <nav class="navbar navbar-default">
@@ -103,6 +103,7 @@
 
 	           <li><a href="<?php echo site_url('result');?>"><?php echo $this->lang->line('result');?></a></li>
 			 
+			 <li><a href="<?php echo site_url('liveclass');?>"><?php echo $this->lang->line('live_classroom');?></a></li>
 			 
 			  <?php  
 				if($logged_in['su']==1){
