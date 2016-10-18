@@ -546,7 +546,7 @@ function saved_answers($rid){
 		}
 		
 	}
-	$percentage_obtained=($marks/$quiz['noq'])*100;
+	$percentage_obtained=($marks/($quiz['noq']*$correct_score))*100;
 	if($percentage_obtained >= $quiz['pass_percentage']){
 		$qr=$this->lang->line('pass');
 	}else{
