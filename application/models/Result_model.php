@@ -48,6 +48,11 @@ return $query->result_array();
  }
  
  
+ function no_attempt($quid,$uid){
+	 
+	$query=$this->db->query(" select * from savsoft_result where uid='$uid' and quid='$quid' ");
+		return $query->num_rows(); 
+ }
  
  
  function remove_result($rid){

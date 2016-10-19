@@ -86,6 +86,7 @@ class Result extends CI_Controller {
 		$logged_in=$this->session->userdata('logged_in');
 			
 		$data['result']=$this->result_model->get_result($rid);
+		$data['attempt']=$this->result_model->no_attempt($data['result']['quid'],$data['result']['uid']);
 		$data['title']=$this->lang->line('result_id').' '.$data['result']['rid'];
 		if($data['result']['view_answer']=='1' || $logged_in['su']=='1'){
 		 $this->load->model("quiz_model");
@@ -124,7 +125,18 @@ class Result extends CI_Controller {
 	 $data['percentile'] = $this->result_model->get_percentile($data['result']['quid'], $data['result']['uid'], $data['result']['score_obtained']);
 
 	  
-	 
+	  $uid=$data['result']['uid'];
+	  $quid=$data['result']['quid'];
+	  $score=$data['result']['score_obtained'];
+	  $query=$this->db->query(" select * from savsoft_result where score_obtained > '$score' and quid ='$quid' group by score_obtained ");
+	  $data['rank']=$query->num_rows() + 1;
+	  $query=$this->db->query(" select * from savsoft_result where quid ='$quid'  group by score_obtained  ");
+	  $data['last_rank']=$query->num_rows();
+	  $query=$this->db->query(" select * from savsoft_result where quid ='$quid'  group by score_obtained  order by score_obtained desc limit 3 ");
+	  $data['toppers']=$query->result_array();
+	  $query=$this->db->query(" select * from savsoft_result where quid ='$quid'  group by score_obtained  order by score_obtained asc limit 1 ");
+	  $data['looser']=$query->row_array();
+	
 		$this->load->view('header',$data);
 		$this->load->view('view_result',$data);
 		$this->load->view('footer',$data);	

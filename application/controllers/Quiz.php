@@ -22,13 +22,14 @@ class Quiz extends CI_Controller {
 		}
 	 }
 
-	public function index($limit='0')
+	public function index($limit='0',$list_view='grid')
 	{
 		
 		$logged_in=$this->session->userdata('logged_in');
 			 
 			
 			
+		$data['list_view']=$list_view;
 		$data['limit']=$limit;
 		$data['title']=$this->lang->line('quiz');
 		// fetching quiz list
@@ -444,9 +445,10 @@ if(isset($_FILES['webcam'])){
 
 
  function submit_quiz(){
-	 
+	 $rid=$this->session->userdata('rid');
+		
 				if($this->quiz_model->submit_result()){
-                        $this->session->set_flashdata('message', "<div class='alert alert-success'>".$this->lang->line('quiz_submit_successfully')." </div>");
+                        $this->session->set_flashdata('message', "<div class='alert alert-success'>".str_replace("{result_url}",site_url('result/view_result/'.$rid),$this->lang->line('quiz_submit_successfully'))." </div>");
 					}else{
 						    $this->session->set_flashdata('message', "<div class='alert alert-danger'>".$this->lang->line('error_to_submit')." </div>");
 						

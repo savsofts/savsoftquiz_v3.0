@@ -13,12 +13,22 @@
    #social_share{
 	   display:none;
    }
+   
    #page_break2{
 	   
    page-break-after: always;
 	}
 	
-
+.noprint{
+	
+	display:none; 
+}
+}
+@media screen {
+.onlyprint{
+	display:none; 
+	
+}
 }
  td{
 		font-size:14px;
@@ -26,30 +36,315 @@
 	}
 	
 	
+	
+	
+	
+	.circle_result{
+	
+	    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background: #0b8d6f;
+    color: #ffffff;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+	margin-right:20px;
+		float:left;
+}
+
+
+.circle_ur{
+	
+	    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background: #ffcc66;
+    color: #ffffff;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+	margin-right:20px;
+	float:left;
+}
+
+
+.circle_l{
+	
+	    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background: #ff3300;
+    color: #ffffff;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+	margin-right:20px;
+	float:right;
+}
+
+.td_line{
+	background:url('<?php echo base_url('images/rankbar.png');?>');background-repeat: repeat-x;
+}
 </style>
  <div class="container">
 <?php 
 $logged_in=$this->session->userdata('logged_in');
 ?>
    
- <h3><?php echo $title;?></h3>
-   
+    
  
-<a href="javascript:print();" class="btn btn-success printbtn"><?php echo $this->lang->line('print');?></a>
+<?php 
+
+function ordinal($number) {
+    $ends = array('th','st','nd','rd','th','th','th','th','th','th');
+    if ((($number % 100) >= 11) && (($number%100) <= 13))
+        return $number. 'th';
+    else
+        return $number. $ends[$number % 10];
+}
+
+function questioninwhichcategory($key,$c_range){
+	foreach($c_range as $k => $cv){
+		
+		if($key >= $cv[0] && $key <= $cv[1]){
+			return $k;
+		}
+	}
+	
+}
+
+
+
+
+function cia_cat($narray,$c_range){
+	$unattempted=array();
+	$correct=array();
+	$incorrect=array();
+	foreach($narray as $k => $val){
+		
+	if($val==2){
+		if(isset($unattempted[questioninwhichcategory($k,$c_range)])){
+		$unattempted[questioninwhichcategory($k,$c_range)]+=1;
+		}else{
+		$unattempted[questioninwhichcategory($k,$c_range)]=1;	
+		}
+	}else if($val==1){
+// $correct+=1;
+		if(isset($correct[questioninwhichcategory($k,$c_range)])){
+		$correct[questioninwhichcategory($k,$c_range)]+=1;
+		}else{
+		$correct[questioninwhichcategory($k,$c_range)]=1;	
+		}
+	}else if($val==0){
+// $incorrect+=1;
+		if(isset($incorrect[questioninwhichcategory($k,$c_range)])){
+		$incorrect[questioninwhichcategory($k,$c_range)]+=1;
+		}else{
+		$incorrect[questioninwhichcategory($k,$c_range)]=1;	
+		}
+	}	
+	 
+		 
+	 
+	}
+	
+	return array($correct,$incorrect,$unattempted);
+}
+
+
+
+
+
+function cia_tim_cate($narray,$tim,$c_range){
+	$unattempted=array();
+	$correct=array();
+	$incorrect=array();
+	foreach($narray as $k => $val){
+	
+	if($val==2){
+		if(isset($unattempted[questioninwhichcategory($k,$c_range)])){
+		$unattempted[questioninwhichcategory($k,$c_range)]+=$tim[$k];
+		}else{
+		$unattempted[questioninwhichcategory($k,$c_range)]=$tim[$k];	
+		}
+	}else if($val==1){
+// $correct+=1;
+		if(isset($correct[questioninwhichcategory($k,$c_range)])){
+		$correct[questioninwhichcategory($k,$c_range)]+=$tim[$k];
+		}else{
+		$correct[questioninwhichcategory($k,$c_range)]=$tim[$k];	
+		}
+	}else if($val==0){
+// $incorrect+=1;
+		if(isset($incorrect[questioninwhichcategory($k,$c_range)])){
+		$incorrect[questioninwhichcategory($k,$c_range)]+=$tim[$k];
+		}else{
+		$incorrect[questioninwhichcategory($k,$c_range)]=$tim[$k];	
+		}
+	}	
+	
+	}
+		
+	return array($correct,$incorrect,$unattempted);
+}
+function prezero($val){
+	if($val <= 9){
+	return '0'.$val;	
+	}else{
+		return $val;
+	}
+}
+function secintomin($sec){
+	if($sec >= 60){
+	$splitin=explode('.',($sec/60));
+	if(isset($splitin[1])){
+		$secs=substr(intval((substr($splitin[1],0,2)*60)/100),0,2);
+	}else{
+		$secs=0;
+	}
+	return $splitin[0].':'.prezero($secs);
+	}else{
+	return '0:'.prezero($sec);	
+	}
+}
+
+
+function per_nonzero($arr){
+	
+$totallen=count($arr);
+$filt=array_filter($arr);
+$per=(count($filt)/$totallen)*100;
+return intval($per);	
+}
+
+$c_range=array();
+$j=0;
+$i=0;
+foreach(explode(",",$result['category_range']) as $ck => $cv){
+	$c_range[]=array($i,($i+($cv-1)));
+	$i+=$cv;
+}
+$correct_incorrect_unattempted=explode(",",$result['score_individual']);
+ 
+$cia_cat=cia_cat($correct_incorrect_unattempted,$c_range);
+ 
+$cia_tim_cate=cia_tim_cate($correct_incorrect_unattempted,explode(",",$result['individual_time']),$c_range);
+
+
+
+?>
+<div class="row noprint" >
+<div class="col-lg-12" style="background-image:url('<?php echo base_url('images/result_bg.jpg');?>');background-size:cover;font-size:18px;padding:20px;color:#ffffff;min-height:400px;">
+<div class="col-lg-12" >
+<center><h3><span style="color:#e39500;"> 
+<?php echo $this->lang->line('hello');?> <?php echo $result['first_name'];?> 
+<?php echo $result['last_name'];?>!</span>  <?php echo str_replace('{attempt_no}',ordinal($attempt),$this->lang->line('title_result'));?> </h3></center>
+</div>
+<div class="col-lg-12" >
+<center>
+<h2><span style="color:#e39500;"><?php echo $result['quiz_name'];?>   </span></h2>
+</center>
+</div>
+<div class="col-lg-12" style="margin-top:20px;">
+	<div class="col-lg-2" style="text-align:center;">
+		<p><?php echo $this->lang->line('score_obtained');?></p>
+		<p style="color:#e39500;" ><?php echo $result['score_obtained'];?></p>
+	</div>
+	<div class="col-lg-2"  style="text-align:center;">
+		<p><?php echo $this->lang->line('time_spent');?></p>
+		<p style="color:#e39500;" ><?php echo secintomin($result['total_time']);?> Min.</p>
+
+	</div>
+	<div class="col-lg-2"  style="text-align:center;">
+		<p><?php echo $this->lang->line('attempt_time');?></p>
+		<p style="color:#e39500;font-size:14px;" ><?php echo date('Y-m-d H:i:s',$result['start_time']);?></p>
+
+	</div>
+	<div class="col-lg-2"  style="text-align:center;">
+		<p><?php echo $this->lang->line('percentage_obtained');?></p>
+		<p style="color:#e39500;" ><?php echo $result['percentage_obtained'];?>%</p>
+
+	</div>
+ <div class="col-lg-2"  style="text-align:center;">
+		<p><?php echo $this->lang->line('percentile_obtained');?></p>
+		<p style="color:#e39500;" ><?php echo substr(((($percentile[1]+1)/$percentile[0])*100),0,5);   ?>%</p>
+
+	</div>
+ 
+<div class="col-lg-2"  style="text-align:center;">
+		<p><?php echo $this->lang->line('status');?></p>
+		<p style="color:#e39500;" ><?php echo $result['result_status'];?></p>
+
+	</div>
+ 
+
+	 
+</div>
+<div class="col-lg-12" style="margin-top:20px;">
+<center>
+<?php 
+if($result['view_answer']=='1' || $logged_in['su']=='1'){
+	
+?>
+<a href="#answers_i" class="btn btn-info" style="margin-top:10px;"><?php echo $this->lang->line('answer_sheet');?></a>
+<?php 
+}
+?>
+
+<a href="javascript:print();" class="btn btn-success printbtn" style="margin-top:10px;"><?php echo $this->lang->line('print');?></a>
 
 <?php
 if($result['gen_certificate']=='1'){
 ?>
-<a href="<?php echo site_url('result/generate_certificate/'.$result['rid']);?>" class="btn btn-warning printbtn"><?php echo $this->lang->line('download_certificate');?></a>
+<a href="<?php echo site_url('result/generate_certificate/'.$result['rid']);?>" class="btn btn-warning printbtn" style="margin-top:10px;"><?php echo $this->lang->line('download_certificate');?></a>
 	
 <?php
 }
 ?>
+
+
+
+</center>
+</div>
+
+<div class="col-lg-12" style="margin-top:50px;color:#dddddd;font-size:14px;">
+ 
+	
+		 
+		 <center>
+		 <?php echo $this->lang->line('result_id');?> <?php echo $result['rid'];?> &nbsp;&nbsp;&nbsp;
+		<?php echo $this->lang->line('user_id');?> <?php echo $result['uid'];?>&nbsp;&nbsp;&nbsp;
+		<?php echo $this->lang->line('email');?>: <?php echo $result['email'];?>
+		 </center>
+		
+		 
+
+	 
+  
+ 
+
+	 
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+ 
+
+
   <div class="row">
      
 <div class="col-md-12">
 <br> 
- <div class="login-panel panel panel-default">
+ <div class="login-panel panel panel-default onlyprint">
 		<div class="panel-body"> 
 	
 	
@@ -69,7 +364,7 @@ if($result['camera_req']=='1'){
 <tr><td><?php echo $this->lang->line('email');?></td><td><?php echo $result['email'];?></td></tr>
 <tr><td><?php echo $this->lang->line('quiz_name');?></td><td><?php echo $result['quiz_name'];?></td></tr>
 <tr><td><?php echo $this->lang->line('attempt_time');?></td><td><?php echo date('Y-m-d H:i:s',$result['start_time']);?></td></tr>
-<tr><td><?php echo $this->lang->line('time_spent');?></td><td><?php echo intval($result['total_time']/60);?></td></tr>
+<tr><td><?php echo $this->lang->line('time_spent');?></td><td><?php echo secintomin($result['total_time']);?></td></tr>
 <tr><td><?php echo $this->lang->line('percentage_obtained');?></td><td><?php echo $result['percentage_obtained'];?>%</td></tr>
 <tr><td><?php echo $this->lang->line('percentile_obtained');?></td><td><?php echo substr(((($percentile[1]+1)/$percentile[0])*100),0,5);   ?>%</td></tr>
 <tr><td><?php echo $this->lang->line('score_obtained');?></td><td><?php echo $result['score_obtained'];?></td></tr>
@@ -81,8 +376,160 @@ if($result['camera_req']=='1'){
 		</div>
 </div>
 <br>
+ 
+	<div class="col-md-12">
+		 <h3><?php echo $this->lang->line('categorywise');?></h3>
+					<table class="table table-bordered">
+					 <thead> <tr><th style="background:#337ab7;color:#ffffff;"><?php echo $this->lang->line('category_name');?></th>
+					 <th  style="background:#337ab7;color:#ffffff;"><?php echo $this->lang->line('score_obtained');?></th>
+					 <th  style="background:#337ab7;color:#ffffff;"><?php echo $this->lang->line('time_spent');?></th>
+					  <th  style="background:#337ab7;color:#ffffff;"><?php echo $this->lang->line('correct');?></th>
+					 <th  style="background:#337ab7;color:#ffffff;"><?php echo $this->lang->line('incorrect');?></th>
+					 <th  style="background:#337ab7;color:#ffffff;"><?php echo $this->lang->line('notattempted');?></th> 
+					</tr></thead>
+					<tbody>
+					  <?php 
+					  $c=0;
+					  $correct=0;
+					 $incorrect=0;
+					 $notattempted=0;
+					  foreach(explode(',',$result['categories']) as $vk => $category){ 
+					  
+					 
+					 
+						?>
+						<tr><td>
+						<?php echo $category; ?>
+						</td>
+						<td><?php echo $cia_cat[0][$vk]*$result['correct_score'];?></td>
+						<td><?php echo secintomin($cia_tim_cate[0][$vk]);?> Min.</td>
+						<td><?php if(isset($cia_cat[0][$vk])){ echo $cia_cat[0][$vk]; $correct+=$cia_cat[0][$vk]; }else{ echo '0'; } ?></td>
+						<td><?php   if(isset($cia_cat[1][$vk])){ echo $cia_cat[1][$vk]; $incorrect+=$cia_cat[1][$vk]; }else{ echo '0';  } ?></td>
+						<td><?php   if(isset($cia_cat[2][$vk])){ echo $cia_cat[2][$vk]; $notattempted+=$cia_cat[2][$vk]; }else{ echo '0';  } ?></td>
+						 
+						</tr>
+					 <?php 
+					  }
+					  ?>
+					 </tbody>
+						 <thead> 
+						 <tr>
+						 <th style="background:#337ab7;color:#ffffff;"><?php echo $this->lang->line('total');?></th>
+						 <th  style="background:#337ab7;color:#ffffff;"><?php echo $result['score_obtained'];?>
+						 </th>
+						 <th style="background:#337ab7;color:#ffffff;"><?php echo secintomin($result['total_time']);?> Min. <?php echo $this->lang->line('approx');?></th>
+						<th style="background:#337ab7;color:#ffffff;"><?php echo $correct;?></th>
+						<th style="background:#337ab7;color:#ffffff;"><?php echo $incorrect;?></th>
+						<th style="background:#337ab7;color:#ffffff;"><?php echo $notattempted;?></th> 
+						 </tr>
+						 </thead>
+					
+						</table>
+						
+		
+	</div>
+	
+	<div class="col-lg-12 noprint">
+	<h3><?php echo $this->lang->line('comparison_other');?></h3>
+	</div>
+	
+<div class="col-lg-12 noprint" style="margin-top:50px;"> 
+<button class="btn btn-default" style="margin-right:20px;width:141px;	float:left;"> <?php echo $this->lang->line('rank').': '.$rank;?> </button> 
+<div class="td_line" style="float:left;width:700px;height:70px;">
+<div <?php if($rank=='1'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Rank"<?php }else{ ?>class="circle_result"<?php } ?>>1</div>
+<div <?php if($rank=='2'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Rank"<?php }else{ ?>class="circle_result"<?php } ?>>2</div>
+<div <?php if($rank=='3'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Rank"<?php }else{ ?>class="circle_result"<?php } ?>>3</div>
+  <?php 
+  if($rank > 3 ){
+  ?>
+<div class="circle_ur s_title"  data-toggle="tooltip"  title="Your Rank" style="margin-left:<?php echo intval(($rank/$last_rank)*100);?>%"><?php echo $rank;?></div>	  
+  <?php 
+  }
+  ?>
 
+    <?php 
+  if($rank != $last_rank ){
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Last Rank"><?php echo $last_rank;?></div>	  
+  <?php 
+  }else{
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Your Rank is Last"><?php echo $last_rank;?></div>	  
 
+  <?php
+  }
+  ?>
+</div>
+ </div>
+ 
+ 
+ 
+ 
+ 
+<div class="col-lg-12 noprint" style="margin-top:50px;">
+<button class="btn btn-default" style="margin-right:20px;	float:left;"> <?php echo $this->lang->line('score_obtained').': '.$result['score_obtained'];?> </button> 
+<div class="td_line" style="float:left;width:700px;height:70px;">
+<div <?php if($rank=='1'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Score"<?php }else{ ?>class="circle_result"<?php } ?>><?php echo $toppers[0]['score_obtained'];?></div>
+<div <?php if($rank=='2'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Score"<?php }else{ ?>class="circle_result"<?php } ?>><?php echo $toppers[1]['score_obtained'];?></div>
+<div <?php if($rank=='3'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Score"<?php }else{ ?>class="circle_result"<?php } ?>><?php echo $toppers[2]['score_obtained'];?></div>
+  <?php 
+  if($rank > 3 ){
+  ?>
+<div class="circle_ur s_title"  data-toggle="tooltip"  title="Your Score" style="margin-left:<?php echo intval(($rank/$last_rank)*100);?>%"><?php echo $result['score_obtained'];?></div>	  
+  <?php 
+  }
+  ?>
+
+    <?php 
+  if($rank != $last_rank ){
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Lowest Score"><?php echo $looser['score_obtained'];?></div>	  
+  <?php 
+  }else{
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Lowest Score is Your"><?php echo $looser['score_obtained'];?></div>	  
+
+  <?php
+  }
+  ?>
+</div>
+ </div>
+ 
+ 
+ 
+ 
+ <div class="col-lg-12 noprint" style="margin-top:50px;margin-bottom:50px;">
+<button class="btn btn-default" style="margin-right:20px;width:141px;	float:left;"> <?php echo $this->lang->line('time').': '.secintomin($result['total_time']).' Min.';?>   </button> 
+<div class="td_line" style="float:left;width:700px;height:70px;">
+<div <?php if($rank=='1'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Time"<?php }else{ ?>class="circle_result"<?php } ?> style="font-size:12px;padding-top:10px;"><?php echo secintomin($toppers[0]['total_time']);?></div>
+<div <?php if($rank=='2'){?>class="circle_ur s_title" data-toggle="tooltip"   title="Your Time"<?php }else{ ?>class="circle_result"<?php } ?> style="font-size:12px;padding-top:10px;"><?php echo secintomin($toppers[1]['total_time']);?></div>
+<div <?php if($rank=='3'){?>class="circle_ur s_title" data-toggle="tooltip"   title="Your Time"<?php }else{ ?>class="circle_result"<?php } ?> style="font-size:12px;padding-top:10px;"><?php echo secintomin($toppers[2]['total_time']);?></div>
+  <?php 
+  if($rank > 3 ){
+  ?>
+<div class="circle_ur s_title"  data-toggle="tooltip"  title="Your Time" style="margin-left:<?php echo intval(($rank/$last_rank)*100);?>%" style="font-size:12px;padding-top:10px;"><?php echo secintomin($result['total_time']);?></div>	  
+  <?php 
+  }
+  ?>
+
+    <?php 
+  if($rank != $last_rank ){
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Last Ranker's Time" style="font-size:12px;padding-top:10px;"><?php echo secintomin($looser['total_time']);?></div>	  
+  <?php 
+  }else{
+  ?>
+<div class="circle_l s_title"  data-toggle="tooltip"  title="Last Ranker's Time" style="font-size:12px;padding-top:10px;"><?php echo secintomin($looser['total_time']);?></div>	  
+
+  <?php
+  }
+  ?>
+</div>
+ </div>
+ 
+ 
+	 <div id="page_break"></div>
+ <div class="col-md-12">
 <?php
  
  
@@ -138,7 +585,9 @@ if($this->config->item('google_chart') == true ){
 
 <?php 
 }
-
+?>
+</div>
+<?php
 $ind_score=explode(',',$result['score_individual']); 
 // view answer
 if($result['view_answer']=='1' || $logged_in['su']=='1'){
@@ -147,6 +596,7 @@ if($result['view_answer']=='1' || $logged_in['su']=='1'){
 
 <div class="login-panel panel panel-default">
 		<div class="panel-body"> 
+		<a name="answers_i"></a>
 <h3><?php echo $this->lang->line('answer_sheet');?></h3>
 
 <?php 
@@ -446,3 +896,6 @@ foreach($questions as $qk => $question){
 
 <input type="hidden" id="evaluate_warning" value="<?php echo $this->lang->line('evaluate_warning');?>">
  
+ <script>
+ $('.s_title').tooltip('show');
+ </script>
