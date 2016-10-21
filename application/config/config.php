@@ -29,6 +29,13 @@ $config['tinymce']=true;
 
  
 
+// default group id
+$config['default_gid']=1;
+
+// Allow open quiz ( true or false )
+$config['open_quiz']=true;
+
+ 
 
 // enable or disable result email. use true or false
 $config['allow_result_email']=false;
@@ -255,7 +262,7 @@ $config['composer_autoload'] = FALSE;
 | DO NOT CHANGE THIS UNLESS YOU FULLY UNDERSTAND THE REPERCUSSIONS!!
 |
 */
-$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
+$config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-+';
 
 /*
 |--------------------------------------------------------------------------
