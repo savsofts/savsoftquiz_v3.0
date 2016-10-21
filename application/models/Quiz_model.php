@@ -27,6 +27,26 @@ Class Quiz_model extends CI_Model
 	 
  }
  
+ 
+   function recent_quiz($limit){
+	  
+	 
+		$this->db->limit($limit);
+		$this->db->order_by('quid','desc');
+		$query=$this->db->get('savsoft_quiz');
+		return $query->result_array();
+}
+ 
+   function open_quiz($limit){
+	  
+	 
+		$this->db->limit($this->config->item('number_of_rows'),$limit);
+		$this->db->order_by('quid','desc');
+		$query=$this->db->get('savsoft_quiz');
+		return $query->result_array();
+}
+ 
+ 
  function num_quiz(){
 	 
 	 $query=$this->db->get('savsoft_quiz');
@@ -48,6 +68,7 @@ Class Quiz_model extends CI_Model
 	 'ip_address'=>$this->input->post('ip_address'),
 	 'view_answer'=>$this->input->post('view_answer'),
 	 'camera_req'=>$this->input->post('camera_req'),
+	 'with_login'=>$this->input->post('with_login'),
 	 'gids'=>implode(',',$this->input->post('gids')),
 	 'question_selection'=>$this->input->post('question_selection')
 	 );
@@ -78,6 +99,7 @@ Class Quiz_model extends CI_Model
 	 'ip_address'=>$this->input->post('ip_address'),
 	 'view_answer'=>$this->input->post('view_answer'),
 	 'camera_req'=>$this->input->post('camera_req'),
+	 'with_login'=>$this->input->post('with_login'),
 	 'gids'=>implode(',',$this->input->post('gids'))
 	 );
 	  	 	 
@@ -515,7 +537,11 @@ function saved_answers($rid){
  
  
  function submit_result(){
+	 if(!$this->session->userdata('logged_in')){
+		$logged_in=$this->session->userdata('logged_in_raw');
+	 }else{
 	 $logged_in=$this->session->userdata('logged_in');
+	 }
 	 $email=$logged_in['email'];
 	 $rid=$this->session->userdata('rid');
 	$query=$this->db->query("select * from savsoft_result join savsoft_quiz on savsoft_result.quid=savsoft_quiz.quid where savsoft_result.rid='$rid' "); 
@@ -646,7 +672,11 @@ if($this->config->item('allow_result_email')){
  function insert_answer(){
 	 $rid=$_POST['rid'];
 	$srid=$this->session->userdata('rid');
-	$logged_in=$this->session->userdata('logged_in');
+	if(!$this->session->userdata('logged_in')){
+		$logged_in=$this->session->userdata('logged_in_raw');
+	}else{
+		$logged_in=$this->session->userdata('logged_in');
+	}
 	$uid=$logged_in['uid'];
 	if($srid != $rid){
 

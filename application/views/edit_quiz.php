@@ -15,15 +15,25 @@
 	
 	
 	
+
 			<?php 
 		if($this->session->flashdata('message')){
 			echo $this->session->flashdata('message');	
 		}
 		?>	
 		
+		<?php if($quiz['with_login']==0){ ?>
 		
 		 			<div class="form-group">	 
-					<label for="inputEmail" class="sr-only"><?php echo $this->lang->line('quiz_name');?></label> 
+					<label for="inputEmail" ><?php echo $this->lang->line('open_quiz_url');?></label> 
+					<input type="text"  onClick="this.select()" value="<?php echo site_url('quiz/quiz_detail/'.$quiz['quid'].'/'.urlencode($quiz['quiz_name'])); ?>" class="form-control"  >
+			</div>
+			
+		<?php 
+		}
+		?>
+		 			<div class="form-group">	 
+					<label for="inputEmail" ><?php echo $this->lang->line('quiz_name');?></label> 
 					<input type="text"  name="quiz_name"  value="<?php echo $quiz['quiz_name'];?>" class="form-control" placeholder="<?php echo $this->lang->line('quiz_name');?>"  required autofocus>
 			</div>
 				<div class="form-group">	 
@@ -67,6 +77,12 @@
 					<input type="radio" name="view_answer"    value="1" <?php if($quiz['view_answer']==1){ echo 'checked'; } ?>  > <?php echo $this->lang->line('yes');?>&nbsp;&nbsp;&nbsp;
 					<input type="radio" name="view_answer"    value="0"   <?php if($quiz['view_answer']==0){ echo 'checked'; } ?>  > <?php echo $this->lang->line('no');?>
 			</div>
+			<div class="form-group">	 
+					<label for="inputEmail" ><?php echo $this->lang->line('open_quiz');?></label> <br>
+					<input type="radio" name="with_login"    value="0"  <?php if($quiz['with_login']==0){ echo 'checked'; } ?>   > <?php echo $this->lang->line('yes');?>&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="with_login"    value="1" <?php if($quiz['with_login']==1){ echo 'checked'; } ?>  > <?php echo $this->lang->line('no');?>
+			</div>
+			
 						<?php 
 			if($this->config->item('webcam')==true){
 				?>
@@ -280,7 +296,8 @@ if(count($qcl)==0){
 
  
 	<button class="btn btn-success" type="submit"><?php echo $this->lang->line('submit');?></button>
- 
+ <br><br><br>
+ <?php echo $this->lang->line('open_quiz_warning');?>
 		</div>
 </div>
  

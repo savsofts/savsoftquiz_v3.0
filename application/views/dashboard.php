@@ -1,11 +1,10 @@
  <div class="container">
 
    
- 
-  
+<div class="alert alert-danger">This is non commercial version of <a href="http://savsoftquiz.com/">Savsoft Quiz</a>.<br> To get more features and Commercial use rights, Buy commercial license at <a href="http://savsoftquiz.com/commercial.php">http://savsoftquiz.com/commercial.php</a></div>
 
 
-
+<div id="update_notice"></div>
 <div class="row">
 
 <div class="col-md-4">
@@ -124,3 +123,8 @@ foreach($result as $key => $val){
 
 
 </div>
+
+<script>
+update_check('3.0');
+
+</script>

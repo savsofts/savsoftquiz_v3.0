@@ -10,6 +10,12 @@ class Quiz extends CI_Controller {
 	   $this->load->model("quiz_model");
 	   $this->load->model("user_model");
 	   $this->lang->load('basic', $this->config->item('language'));
+
+	 }
+
+	public function index($limit='0',$list_view='grid')
+	{
+		
 		// redirect if not loggedin
 		if(!$this->session->userdata('logged_in')){
 			redirect('login');
@@ -20,10 +26,8 @@ class Quiz extends CI_Controller {
 		$this->session->unset_userdata('logged_in');		
 		redirect('login');
 		}
-	 }
-
-	public function index($limit='0',$list_view='grid')
-	{
+		
+		
 		
 		$logged_in=$this->session->userdata('logged_in');
 			 
@@ -39,8 +43,36 @@ class Quiz extends CI_Controller {
 		$this->load->view('footer',$data);
 	}
 	
+	
+	
+function open_quiz($limit='0'){
+	if(!$this->config->item('open_quiz')){
+		exit();
+	}
+		$data['limit']=$limit;
+		$data['title']=$this->lang->line('quiz');
+		$data['open_quiz']=$this->quiz_model->open_quiz($limit);
+		
+		$this->load->view('header',$data);
+		$this->load->view('open_quiz',$data);
+		$this->load->view('footer',$data);
+	
+}
+
+
+
 	public function add_new()
 	{
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 		
 		$logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']!='1'){
@@ -68,6 +100,16 @@ class Quiz extends CI_Controller {
 	
 		public function edit_quiz($quid)
 	{
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 		
 		$logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']!='1'){
@@ -117,6 +159,16 @@ class Quiz extends CI_Controller {
 	
 	
 	function remove_qid($quid,$qid){
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 		
 		if($this->quiz_model->remove_qid($quid,$qid)){
                         $this->session->set_flashdata('message', "<div class='alert alert-success'>".$this->lang->line('removed_successfully')." </div>");
@@ -125,6 +177,16 @@ class Quiz extends CI_Controller {
 	}
 	
 	function add_qid($quid,$qid){
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 		
 		 $this->quiz_model->add_qid($quid,$qid);
           echo 'added';              
@@ -133,6 +195,16 @@ class Quiz extends CI_Controller {
 	
 	
 	function pre_add_question($quid,$limit='0',$cid='0',$lid='0'){
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 		$cid=$this->input->post('cid');
 		$lid=$this->input->post('lid');
 		redirect('quiz/add_question/'.$quid.'/'.$limit.'/'.$cid.'/'.$lid);
@@ -142,6 +214,17 @@ class Quiz extends CI_Controller {
 	
 		public function add_question($quid,$limit='0',$cid='0',$lid='0')
 	{
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+
 		$this->load->model("qbank_model");
 	   
 		
@@ -178,7 +261,19 @@ class Quiz extends CI_Controller {
 	
 	
 	function up_question($quid,$qid,$not='1'){
-	$logged_in=$this->session->userdata('logged_in');
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+
+
+		$logged_in=$this->session->userdata('logged_in');
 	if($logged_in['su']!="1"){
 	exit($this->lang->line('permission_denied'));
 	return;
@@ -195,7 +290,19 @@ class Quiz extends CI_Controller {
 	
 	
 	function down_question($quid,$qid,$not='1'){
-	$logged_in=$this->session->userdata('logged_in');
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+
+
+		$logged_in=$this->session->userdata('logged_in');
 	if($logged_in['su']!="1"){
 	exit($this->lang->line('permission_denied'));
 	return;
@@ -211,6 +318,16 @@ class Quiz extends CI_Controller {
 	
 		public function insert_quiz()
 	{
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 		
 	 
 	
@@ -238,6 +355,16 @@ class Quiz extends CI_Controller {
 	
 		public function update_quiz($quid)
 	{
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 		
 		
 			$logged_in=$this->session->userdata('logged_in');
@@ -271,6 +398,16 @@ class Quiz extends CI_Controller {
 	
 	
 	public function remove_quiz($quid){
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 
 			$logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']!='1'){
@@ -292,6 +429,8 @@ class Quiz extends CI_Controller {
 
 
 	public function quiz_detail($quid){
+				// redirect if not loggedin
+ 
 		
 		$logged_in=$this->session->userdata('logged_in');
 		$gid=$logged_in['gid'];
@@ -305,8 +444,100 @@ class Quiz extends CI_Controller {
 	}
 	
 	public function validate_quiz($quid){
+		$data['quiz']=$this->quiz_model->get_quiz($quid);
+		// if it is without login quiz.
+		if($data['quiz']['with_login']==0 && !$this->session->userdata('logged_in')){
+		if($this->session->userdata('logged_in_raw')){
+		$logged_in=$this->session->userdata('logged_in_raw');
+		}else{
+			
+		$userdata=array(
+		'email'=>time(),
+		'password'=>md5(rand(11111,99999)),
+		'first_name'=>'Guest User',
+		'last_name'=>time(),
+		'contact_no'=>'',
+		'gid'=>$this->config->item('default_gid'),
+		'su'=>'0'		
+		);
+		$this->db->insert('savsoft_users',$userdata);
+		$uid=$this->db->insert_id();
+		$query=$this->db->query("select * from savsoft_users where uid='$uid' ");
+		$user=$query->row_array();
+		// creating login cookie
+		$user['base_url']=base_url();
+		$this->session->set_userdata('logged_in_raw', $user);
+		$logged_in=$user;
+		}		
+		
+		
+		$gid=$logged_in['gid'];
+		$uid=$logged_in['uid'];
 		 
+		 // if this quiz already opened by user then resume it
+		 $open_result=$this->quiz_model->open_result($quid,$uid);
+		if($open_result != '0'){
+		$this->session->set_userdata('rid', $open_result);
+		redirect('quiz/attempt/'.$open_result);	
+		}
+		$data['quiz']=$this->quiz_model->get_quiz($quid);
+
+		// validate start end date/time
+		if($data['quiz']['start_date'] > time()){
+		$this->session->set_flashdata('message', "<div class='alert alert-danger'>".$this->lang->line('quiz_not_available')." </div>");
+		redirect('quiz/quiz_detail/'.$quid);
+		 }
+		// validate start end date/time
+		if($data['quiz']['end_date'] < time()){
+		$this->session->set_flashdata('message', "<div class='alert alert-danger'>".$this->lang->line('quiz_ended')." </div>");
+		redirect('quiz/quiz_detail/'.$quid);
+		 }
+
+
+		
+		// insert result row and get rid (result id)
+		$rid=$this->quiz_model->insert_result($quid,$uid);
+		
+		$this->session->set_userdata('rid', $rid);
+		redirect('quiz/attempt/'.$rid);	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+		// without login ends
+
+		
+		}else{
+		// with login starts
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			$this->session->set_flashdata('message', $this->lang->line('login_required2'));
+			
+			redirect('login');
+			
+		}
 		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+		 
+		
+		
+		$logged_in=$this->session->userdata('logged_in');
+		
+		
 		$gid=$logged_in['gid'];
 		$uid=$logged_in['uid'];
 		 
@@ -354,14 +585,32 @@ class Quiz extends CI_Controller {
 		
 		$this->session->set_userdata('rid', $rid);
 		redirect('quiz/attempt/'.$rid);	
-		
+		}
 		
 	}
 	
 	
 	
 	function attempt($rid){
-		  $srid=$this->session->userdata('rid');
+		// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			if(!$this->session->userdata('logged_in_raw')){
+				redirect('login');
+			}
+		}
+		
+		if(!$this->session->userdata('logged_in')){
+		$logged_in=$this->session->userdata('logged_in_raw');
+		}else{
+		$logged_in=$this->session->userdata('logged_in');
+		}
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+
+
+		$srid=$this->session->userdata('rid');
 						// if linked and session rid is not matched then something wrong.
 			if($rid != $srid){
 		 
@@ -369,10 +618,12 @@ class Quiz extends CI_Controller {
 		redirect('quiz/');
 
 			}
-
+		/*
 		if(!$this->session->userdata('logged_in')){
 			exit($this->lang->line('permission_denied'));
 		}
+		*/
+		
 		// get result and quiz info and validate time period
 		$data['quiz']=$this->quiz_model->quiz_result($rid);
 		$data['saved_answers']=$this->quiz_model->saved_answers($rid);
@@ -413,6 +664,24 @@ class Quiz extends CI_Controller {
 	
 	
 	function save_answer(){
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			if(!$this->session->userdata('logged_in_raw')){
+		
+		redirect('login');
+			}	
+		}
+		if(!$this->session->userdata('logged_in')){
+		$logged_in=$this->session->userdata('logged_in_raw');
+		}else{
+		$logged_in=$this->session->userdata('logged_in');
+		}
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+
+
 		echo "<pre>";
 		print_r($_POST);
 		  // insert user response and calculate scroe
@@ -430,7 +699,19 @@ class Quiz extends CI_Controller {
  
  
  function upload_photo(){
+				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 
+		
+		
 if(isset($_FILES['webcam'])){
 			$targets = 'photo/';
 			$filename=time().'.jpg';
@@ -445,22 +726,58 @@ if(isset($_FILES['webcam'])){
 
 
  function submit_quiz(){
+	 				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			if(!$this->session->userdata('logged_in_raw')){
+		 redirect('login');
+			}
+		}
+		if(!$this->session->userdata('logged_in')){
+		$logged_in=$this->session->userdata('logged_in_raw');
+		}else{
+		$logged_in=$this->session->userdata('logged_in');
+		}
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+
 	 $rid=$this->session->userdata('rid');
 		
 				if($this->quiz_model->submit_result()){
-                        $this->session->set_flashdata('message', "<div class='alert alert-success'>".str_replace("{result_url}",site_url('result/view_result/'.$rid),$this->lang->line('quiz_submit_successfully'))." </div>");
+					 
+					 $this->session->set_flashdata('message', "<div class='alert alert-success'>".str_replace("{result_url}",site_url('result/view_result/'.$rid),$this->lang->line('quiz_submit_successfully'))." </div>");
+					 
+					
 					}else{
 						    $this->session->set_flashdata('message', "<div class='alert alert-danger'>".$this->lang->line('error_to_submit')." </div>");
 						
 					}
 			$this->session->unset_userdata('rid');		
-					
+	if($this->session->userdata('logged_in')){				
  redirect('quiz');
+	}else{
+	 redirect('quiz/open_quiz/0');	
+	}
  }
  
  
  
  function assign_score($rid,$qno,$score){
+	 
+	 				// redirect if not loggedin
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+
+		
+		
 	 $logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']!='1'){
 				exit($this->lang->line('permission_denied'));

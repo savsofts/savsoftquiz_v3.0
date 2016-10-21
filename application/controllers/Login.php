@@ -8,6 +8,7 @@ class Login extends CI_Controller {
 	   parent::__construct();
 	   $this->load->database();
 	   $this->load->model("user_model");
+	    $this->load->model("quiz_model");
 	   $this->lang->load('basic', $this->config->item('language'));
 		if($this->db->database ==''){
 		redirect('install');	
@@ -36,6 +37,8 @@ class Login extends CI_Controller {
 		
 		
 		$data['title']=$this->lang->line('login');
+		$data['recent_quiz']=$this->quiz_model->recent_quiz('5');
+		
 		$this->load->view('header',$data);
 		$this->load->view('login',$data);
 		$this->load->view('footer',$data);

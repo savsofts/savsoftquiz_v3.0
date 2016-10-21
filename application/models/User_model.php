@@ -136,8 +136,18 @@ Class User_model extends CI_Model
 		 if($this->config->item('verify_email')){
 			$userdata['verify_code']=$veri_code;
 		 }
- 
-		if($this->db->insert('savsoft_users',$userdata)){
+		 		if($this->session->userdata('logged_in_raw')){
+					$userraw=$this->session->userdata('logged_in_raw');
+					$userraw_uid=$userraw['uid'];
+					$this->db->where('uid',$userraw_uid);
+				$rresult=$this->db->update('savsoft_users',$userdata);
+				if($this->session->userdata('logged_in_raw')){
+				$this->session->unset_userdata('logged_in_raw');	
+				}		
+				}else{
+				$rresult=$this->db->insert('savsoft_users',$userdata);
+				}
+		if($rresult){
 			 if($this->config->item('verify_email')){
 				 // send verification link in email
 				 

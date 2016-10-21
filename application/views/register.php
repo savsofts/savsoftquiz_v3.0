@@ -1,3 +1,18 @@
+<div class="row"  style="border-bottom:1px solid #dddddd;">
+<div class="container"  >
+<div class="col-md-1">
+</div>
+<div class="col-md-10">
+<a href="<?php echo base_url();?>"><img src="<?php echo base_url('images/logo.png');?>"></a>
+<?php echo $this->lang->line('login_tagline');?>
+</div>
+<div class="col-md-1">
+</div>
+
+</div>
+
+</div>
+
  <div class="container">
 
    

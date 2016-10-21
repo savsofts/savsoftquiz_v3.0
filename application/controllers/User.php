@@ -248,7 +248,9 @@ class User extends CI_Controller {
 	function logout(){
 		
 		$this->session->unset_userdata('logged_in');		
-					
+			if($this->session->userdata('logged_in_raw')){
+				$this->session->unset_userdata('logged_in_raw');	
+			}		
  redirect('login');
 		
 	}

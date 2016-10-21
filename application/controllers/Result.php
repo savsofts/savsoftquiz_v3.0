@@ -10,7 +10,13 @@ class Result extends CI_Controller {
 	   $this->load->model("result_model");
 	   $this->lang->load('basic', $this->config->item('language'));
 		// redirect if not loggedin
-		if(!$this->session->userdata('logged_in')){
+
+	 }
+
+	public function index($limit='0',$status='0')
+	{
+		
+	 	if(!$this->session->userdata('logged_in')){
 			redirect('login');
 			
 		}
@@ -19,12 +25,6 @@ class Result extends CI_Controller {
 		$this->session->unset_userdata('logged_in');		
 		redirect('login');
 		}
-	 }
-
-	public function index($limit='0',$status='0')
-	{
-		
-	 
 			
 			
 		$data['limit']=$limit;
@@ -47,7 +47,15 @@ class Result extends CI_Controller {
 
 	
 	public function remove_result($rid){
-
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
 			$logged_in=$this->session->userdata('logged_in');
 			if($logged_in['su']!='1'){
 				exit($this->lang->line('permission_denied'));
@@ -67,6 +75,21 @@ class Result extends CI_Controller {
 
 	
 	function generate_report(){
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+		
+		$logged_in=$this->session->userdata('logged_in');
+			if($logged_in['su']!='1'){
+				exit($this->lang->line('permission_denied'));
+			} 
+			
 		$this->load->helper('download');
 		
 		$quid=$this->input->post('quid');
@@ -83,8 +106,24 @@ class Result extends CI_Controller {
 	
 	
 	function view_result($rid){
+		
+		if(!$this->session->userdata('logged_in')){
+		if(!$this->session->userdata('logged_in_raw')){
+			redirect('login');
+		}	
+		}
+		if(!$this->session->userdata('logged_in')){
+		$logged_in=$this->session->userdata('logged_in_raw');	
+		}else{
 		$logged_in=$this->session->userdata('logged_in');
-			
+		}
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+		
+		
+		 	
 		$data['result']=$this->result_model->get_result($rid);
 		$data['attempt']=$this->result_model->no_attempt($data['result']['quid'],$data['result']['uid']);
 		$data['title']=$this->lang->line('result_id').' '.$data['result']['rid'];
@@ -138,14 +177,30 @@ class Result extends CI_Controller {
 	  $data['looser']=$query->row_array();
 	
 		$this->load->view('header',$data);
+		if($this->session->userdata('logged_in')){
 		$this->load->view('view_result',$data);
+		}else{
+		$this->load->view('view_result_without_login',$data);
+			
+		}
 		$this->load->view('footer',$data);	
+		
 		
 	}
 	
 	
 	
 	function generate_certificate($rid){
+				if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+		
 	$data['result']=$this->result_model->get_result($rid);
 	if($data['result']['gen_certificate']=='0'){
 		exit();
@@ -183,7 +238,17 @@ class Result extends CI_Controller {
 	
 	
 	function preview_certificate($quid){
-		 $this->load->model("quiz_model");
+		if(!$this->session->userdata('logged_in')){
+			redirect('login');
+			
+		}
+		$logged_in=$this->session->userdata('logged_in');
+		if($logged_in['base_url'] != base_url()){
+		$this->session->unset_userdata('logged_in');		
+		redirect('login');
+		}
+
+		$this->load->model("quiz_model");
 	  
 	$data['result']=$this->quiz_model->get_quiz($quid);
 	if($data['result']['gen_certificate']=='0'){

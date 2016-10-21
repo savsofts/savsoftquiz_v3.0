@@ -467,7 +467,7 @@ if($result['camera_req']=='1'){
  
  
 <div class="col-lg-12 noprint" style="margin-top:50px;">
-<button class="btn btn-default" style="margin-right:20px;	float:left;"> <?php echo $this->lang->line('score_obtained').': '.$result['score_obtained'];?> </button> 
+<button class="btn btn-default" style="margin-right:20px;width:141px;	float:left;"> <?php echo $this->lang->line('score_obtained').': '.$result['score_obtained'];?> </button> 
 <div class="td_line" style="float:left;width:700px;height:70px;">
 <div <?php if($rank=='1'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Score"<?php }else{ ?>class="circle_result"<?php } ?>><?php echo $toppers[0]['score_obtained'];?></div>
 <div <?php if($rank=='2'){?>class="circle_ur s_title" data-toggle="tooltip"  title="Your Score"<?php }else{ ?>class="circle_result"<?php } ?>><?php echo $toppers[1]['score_obtained'];?></div>

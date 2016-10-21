@@ -35,6 +35,7 @@
   
 
 <?php 
+if($this->session->userdata('logged_in')){
 if($quiz['camera_req']==1 && $this->config->item('webcam')==true){
 ?>
 <div style="color:#ff0000;"><?php echo $this->lang->line('camera_instructions');?></div>
@@ -84,6 +85,22 @@ if($quiz['camera_req']==1 && $this->config->item('webcam')==true){
 	<button class="btn btn-success" type="submit"><?php echo $this->lang->line('start_quiz');?></button>
  
  <?php 
+}
+}else{
+	if($quiz['with_login']==0){ 
+	?>
+	
+	<button class="btn btn-success" type="submit"><?php echo $this->lang->line('start_quiz');?></button>
+ &nbsp;&nbsp;&nbsp;&nbsp; <a href="<?php echo site_url('quiz/open_quiz/0');?>" ><?php echo $this->lang->line('back');?></a>
+
+	
+	<?php 
+	}else{
+?>
+<div class="alert alert-danger"><?php echo str_replace('{base_url}',base_url(),$this->lang->line('login_required'));?></div>
+&nbsp;&nbsp;&nbsp;&nbsp; <a href="<?php echo site_url('quiz/open_quiz/0');?>" ><?php echo $this->lang->line('back');?></a>
+<?php
+	} 
 }
 ?>
 		</div>

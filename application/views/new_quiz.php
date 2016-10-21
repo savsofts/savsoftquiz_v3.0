@@ -67,6 +67,11 @@
 					<input type="radio" name="view_answer"    value="1" checked > <?php echo $this->lang->line('yes');?>&nbsp;&nbsp;&nbsp;
 					<input type="radio" name="view_answer"    value="0"  > <?php echo $this->lang->line('no');?>
 			</div>
+				<div class="form-group">	 
+					<label for="inputEmail" ><?php echo $this->lang->line('open_quiz');?></label> <br>
+					<input type="radio" name="with_login"    value="0"  > <?php echo $this->lang->line('yes');?>&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="with_login"    value="1" checked > <?php echo $this->lang->line('no');?>
+			</div>
 			<?php 
 			if($this->config->item('webcam')==true){
 				?>
@@ -117,6 +122,8 @@
  
 	<button class="btn btn-success" type="submit"><?php echo $this->lang->line('next');?></button>
  
+ <br><br><br>
+ <?php echo $this->lang->line('open_quiz_warning');?>
 		</div>
 </div>
  
