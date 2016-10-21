@@ -247,5 +247,16 @@ $lang['grid_view'] = "Grid View";
 $lang['rank'] = "Rank";
 $lang['time'] = "Time";
 $lang['comparison_other'] = "Comparision with other";
-
-
+$lang['login_tagline'] = "Online Quiz Management System";
+$lang['recent_quizzes'] = "Recently Created Quizzes";
+$lang['view_all'] = "View All";
+$lang['available'] = "Available on:";
+$lang['duration2'] = "Duration:";
+$lang['available_time'] = "Available Time:";
+$lang['open_quiz'] = "Open Quiz - can be attempted without login?*";
+$lang['open_quiz_warning'] = "*Some validation and features will not work in Open Quiz, however it will work if user logged in.";
+$lang['open_quiz_url']="Open Quiz URL";
+$lang['all_quizzes']="All available quizzes";
+$lang['login_required']="Login required to attempt this quiz. <a href='{base_url}'>Click here</a> to login or register new account";
+$lang['login_required2']="Login required to attempt this quiz.";
+$lang['login_required3']="<div class='alert alert-danger'>Login required to view complete report (Correct solutions, Charts and Categorywise Analysis).<br> <a href='{base_url}'>Click here</a> to login or register new account</div>";
