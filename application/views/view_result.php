@@ -123,7 +123,7 @@ function cia_cat($narray,$c_range){
 	$incorrect=array();
 	foreach($narray as $k => $val){
 		
-	if($val==2){
+	if($val==0){
 		if(isset($unattempted[questioninwhichcategory($k,$c_range)])){
 		$unattempted[questioninwhichcategory($k,$c_range)]+=1;
 		}else{
@@ -136,7 +136,7 @@ function cia_cat($narray,$c_range){
 		}else{
 		$correct[questioninwhichcategory($k,$c_range)]=1;	
 		}
-	}else if($val==0){
+	}else if($val==2){
 // $incorrect+=1;
 		if(isset($incorrect[questioninwhichcategory($k,$c_range)])){
 		$incorrect[questioninwhichcategory($k,$c_range)]+=1;
@@ -162,7 +162,7 @@ function cia_tim_cate($narray,$tim,$c_range){
 	$incorrect=array();
 	foreach($narray as $k => $val){
 	
-	if($val==2){
+	if($val==0){
 		if(isset($unattempted[questioninwhichcategory($k,$c_range)])){
 		$unattempted[questioninwhichcategory($k,$c_range)]+=$tim[$k];
 		}else{
@@ -175,7 +175,7 @@ function cia_tim_cate($narray,$tim,$c_range){
 		}else{
 		$correct[questioninwhichcategory($k,$c_range)]=$tim[$k];	
 		}
-	}else if($val==0){
+	}else if($val==2){
 // $incorrect+=1;
 		if(isset($incorrect[questioninwhichcategory($k,$c_range)])){
 		$incorrect[questioninwhichcategory($k,$c_range)]+=$tim[$k];

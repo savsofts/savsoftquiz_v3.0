@@ -76,7 +76,7 @@ $config['activation_message'] = "Hi, \r\n Thank you for registering with us. Ple
 // password reset email subject
 $config['password_subject'] = "Password Changed";
 // password reset email message
-$config['passsword_message'] = "Hi, \r\n Your New Password is: [new_password] \r\n Thanks";
+$config['password_message'] = "Hi, \r\n Your New Password is: [new_password] \r\n Thanks";
 
 // Default result message
 // you can use below tags and system replace it with related variables. 

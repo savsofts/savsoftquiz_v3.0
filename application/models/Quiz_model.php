@@ -367,11 +367,14 @@ $noq=$quiz['noq'];
 	$questions=$query->result_array();
 	foreach($questions as $qk => $question){
 	if(!in_array($question['category_name'],$categories)){
-			 $categories[]=$question['category_name'];
+		if(count($categories)!=0){
+			$i+=1;
+		}
+	$categories[]=$question['category_name'];
 	$noq[$i]+=1;
 	}else{
-		$i+=1;
-	$noq[$i]+=1;	
+	$noq[$i]+=1;
+
 	}
 	}
 	
